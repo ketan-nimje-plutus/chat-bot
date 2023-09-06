@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import './ChatBot.css';
 import axios from 'axios';
+import data from './steps.json'
 
 function Chatbot() {
   const [showChat, setShowChat] = useState(false);
@@ -14,16 +15,31 @@ function Chatbot() {
   const chatContainerRef = useRef(null);
   const [responseMessage, setResponseMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [jsonData, setJsonData] = useState([]);
+
+  useEffect(() => {
+    setJsonData(data);
+  }, []);
 
   const startChat = () => {
     setShowChat(true);
+    const welcomeMessage = {
+      text: 'Welcome to the chat!',
+      isBot: true,
+      timestamp: new Date().toLocaleTimeString(),
+    };
+    setChatMessages([welcomeMessage]);
   };
+
   const hideChat = () => {
     setShowChat(false);
     setChatMessages([]);
     setSelectedOption(null);
   };
+
   const handleOptionClick = (answer, question) => {
+    // Display a typing indicator
+
     const selectedOptionMessage = {
       text: question,
       isBot: false,
@@ -33,44 +49,39 @@ function Chatbot() {
     const typingMessage = {
       text: 'Typing...',
       isBot: true,
+      isOption: false,
       timestamp: new Date().toLocaleTimeString(),
     };
     setChatMessages((prevMessages) => [...prevMessages, typingMessage]);
+
     setTimeout(() => {
       const botResponseMessage = {
         text: answer,
         isBot: true,
+        isOption: false,
         timestamp: new Date().toLocaleTimeString(),
       };
-      setChatMessages((prevMessages) => {
-        const typingIndex = prevMessages.findIndex(
-          (message) => message.text === 'Typing...'
-        );
-        if (typingIndex !== -1) {
-          const updatedMessages = [
-            ...prevMessages.slice(0, typingIndex),
-            botResponseMessage,
-            ...prevMessages.slice(typingIndex + 1),
-          ];
 
-          return updatedMessages;
-        }
-        return prevMessages;
+      setChatMessages((prevMessages) => {
+        const updatedMessages = prevMessages
+          .filter((message) => message.text !== 'Typing...')
+          .concat(botResponseMessage);
+        return updatedMessages;
       });
+      if (!answer) {
+        const selectedOptions =
+          jsonData.find((data) => data.question === question)?.option;
+        const optionMessages = selectedOptions.map((option) => ({
+          text: option.question,
+          isBot: true,
+          isOption: true,
+          onClick: () => handleOptionClick(option.answer, option.question),
+        }));
+        setChatMessages((prevMessages) => [...prevMessages, ...optionMessages]);
+      }
     }, 2000);
   };
-  // const simulateTypings = (text) => {
-  //   const typingDelay = 10;
-  //   let currentIndex = 0;
-  //   const typingInterval = setInterval(() => {
-  //     setChatMessages((prevAnswer) => prevAnswer + text[currentIndex]);
-  //     currentIndex++;
-  //     if (currentIndex === text.length) {
-  //       clearInterval(typingInterval);
-  //       setIsLoading(false);
-  //     }
-  //   }, typingDelay);
-  // }
+
   const sendMessage = () => {
     if (inputMessage.trim() === '') return;
     const newUserMessage = {
@@ -82,46 +93,40 @@ function Chatbot() {
     const newMessages = [...chatMessages, newUserMessage];
     setChatMessages(newMessages);
     setInputMessage('');
-    // const typingMessage = {
-    //   text: 'Typing...',
-    //   isBot: true,
-    //   timestamp: new Date().toLocaleTimeString(),
-    // };
-    const updatedMessagesWithTyping = [...newMessages, isLoading];
-    // setChatMessages(updatedMessagesWithTyping);
 
+    const updatedMessagesWithTyping = [...newMessages, isLoading];
     setIsLoading(true);
 
     setTimeout(() => {
       setIsLoading(false);
-      axios
-        .post('http://localhost:9090/get', { question: inputMessage })
-        .then((response) => {
-          const botResponse = response.data;
-          scrollToBottom(); 
-          const botResponseMessage = {
-            text: botResponse.Botresponse,
-            isBot: true,
-            timestamp: new Date().toLocaleTimeString(),
-          };
-          const optionsMessages = Array.isArray(botResponse.Options)
-            ? botResponse.Options.map((option) => ({
-              text: option.question,
-              isBot: true,
-              isOption: true,
-              onClick: () => handleOptionClick(option.answer, option.question),
-            }))
-            : [];
-          const updatedMessages = [
-            ...updatedMessagesWithTyping.slice(0, -1),
-            botResponseMessage,
-            ...optionsMessages,
-          ];
-          setChatMessages(updatedMessages);
-        })
-        .catch((error) => {
-          console.error('Error sending message:', error);
-        });
+      const matchedData = jsonData.find((data) => data.question === inputMessage);
+      if (matchedData) {
+        const botResponseMessage = {
+          text: matchedData.answer,
+          isBot: true,
+          timestamp: new Date().toLocaleTimeString(),
+        };
+        const optionsMessages = matchedData.option.map((option) => ({
+          text: option.question,
+          isBot: true,
+          isOption: true,
+          onClick: () => handleOptionClick(option.answer, option.question),
+        }));
+        const updatedMessages = [
+          ...updatedMessagesWithTyping.slice(0, -1),
+          botResponseMessage,
+          ...optionsMessages,
+        ];
+        setChatMessages(updatedMessages);
+      } else {
+        const errorMessage = {
+          text: 'Sorry, I couldn\'t find a matching response for your question.',
+          isBot: true,
+          timestamp: new Date().toLocaleTimeString(),
+        };
+        const updatedMessages = [...updatedMessagesWithTyping.slice(0, -1), errorMessage];
+        setChatMessages(updatedMessages);
+      }
       setSelectedOption(null);
     }, 2000);
     scrollToBottom();
@@ -129,57 +134,53 @@ function Chatbot() {
 
   const scrollToBottom = () => {
     if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+      chatContainerRef.current.scrollToBottom = chatContainerRef.current.scrollToTop;
     }
   };
-
   useEffect(() => {
-    scrollToBottom(); // Scroll to the bottom when chatMessages change
+    scrollToBottom();
   }, [chatMessages]);
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       sendMessage();
-    
     }
   };
 
   const callChatbotAPI = () => {
-    axios
-      .post('http://localhost:9090/get', { question: inputMessage })
-      .then(response => {
-        const botResponse = response.data;
-        console.log(botResponse.job,'botResponse')
-        const botResponseMessage = { text: botResponse.Botresponse, isBot: true };
-        console.log(botResponseMessage,'botResponseMessage')
-        const optionsMessages = Array.isArray(botResponse.Options)
-          ? botResponse.Options.map(option => {
-            const optionMessage = {
-              text: option.question,
-              isBot: true,  
-              isOption: true
-            };
-  
-            if (option.answer) {
-              optionMessage.onClick = () => handleOptionClick(option.answer, option.question);
-            }
-            else if (botResponse.answer){
-              optionMessage.onClick = () => handleOptionClick(botResponse.answer, option.question);
-            }
-  
-            return optionMessage;
-          })
-          : [];
-        const updatedMessages = [
-          botResponseMessage,
-          ...optionsMessages
-        ];
-        setChatMessages(updatedMessages);
-      })
-      .catch(error => {
-        console.error('Error sending message:', error);
+    const matchedData = jsonData.find((data) => data.question === inputMessage);
+
+    if (matchedData) {
+      const botResponseMessage = {
+        text: matchedData.answer,
+        isBot: true,
+        timestamp: new Date().toLocaleTimeString(),
+      };
+
+      const optionsMessages = matchedData.option.map((option) => {
+        const optionMessage = {
+          text: option.question,
+          isBot: true,
+          isOption: true,
+          onClick: () => handleOptionClick(option.answer, option.question),
+        };
+        return optionMessage;
       });
+
+      const updatedMessages = [botResponseMessage, ...optionsMessages];
+      setChatMessages(updatedMessages);
+    } else {
+      const errorMessage = {
+        text: 'Sorry, I couldn\'t find a matching response for your question.',
+        isBot: true,
+        timestamp: new Date().toLocaleTimeString(),
+      };
+      const updatedMessages = [errorMessage];
+      setChatMessages(updatedMessages);
+    }
   };
+
+
   return (
     <div className='icon'>
       <Button
@@ -187,7 +188,7 @@ function Chatbot() {
           startChat();
           callChatbotAPI()
         }}
-        style={{ backgroundColor: '#f05454' }}
+        style={{ backgroundColor: 'rgb(41, 164, 205)' }}
       >
         <i>
           {showChat ? <AiOutlineMinus /> : <AiOutlinePlus />}
@@ -195,25 +196,25 @@ function Chatbot() {
       </Button>
       <Modal show={showChat} onHide={hideChat}>
         <Modal.Header closeButton>
-          <Modal.Title className='title'>BotChat</Modal.Title>
+          <Modal.Title className='title'>Plutus</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <div className='message-text'>
+            helloo
+          </div>
           <div className='chat-messages' ref={chatContainerRef}>
             {chatMessages?.map((message, index) => (
               <div
                 key={index}
-                className={`chat-message ${message.isBot ? 'left' : 'right'} ${message.isOption ? 'option-message' : ''
-                  }`}
+                className={`chat-message ${message.isBot ? 'left' : 'right'} ${message.isOption ? 'option-message' : ''}`}
                 onClick={message.isOption ? message.onClick : null}
               >
-                <div className='message-content'>
-                  <div className='message-text'>{message.text}</div>
+                <div className={`message-text ${message.isOption ? 'message-option' : ''}`}>
+                  {message.text}
                 </div>
                 {!message.isOption && (
                   <div className='message-timestamp'>
                     {new Date().toLocaleString('en-US', {
-                      // month: 'short',
-                      // day: 'numeric',
                       hour: 'numeric',
                       minute: 'numeric',
                       hour12: true,
@@ -225,39 +226,38 @@ function Chatbot() {
             {selectedOption && (
               <>
                 <div className='chat-message right'>
-                  <div className='message-content'>
-                    <div className='message-text'>
-                      {selectedOption.question}
-                    </div>
+                  {/* <div className='message-content'> */}
+                  <div className='message-text'>
+                    {selectedOption.question}
+                    {/* </div> */}
                   </div>
                 </div>
                 <div className='message-timestamp'>{new Date().toLocaleString('en-US', {
-                  // month: 'short',
-                  // day: 'numeric',
                   hour: 'numeric',
                   minute: 'numeric',
                   hour12: true,
                 })}</div>
                 <div className='chat-message left'>
-                  <div className='message-content'>
-                    <div className='message-text'>
-                      {selectedOption.answer}
-                    </div>
+                  {/* <div className='message-content'> */}
+                  <div className='message-text'>
+                    {selectedOption.answer}
+                    {/* </div> */}
                   </div>
                 </div>
                 {selectedOption.options && selectedOption.options.map((option, index) => (
                   <div
                     key={index}
-                    className='chat-message left option-message'
+                    className='chat-message left message-option'
                     onClick={option.onClick}
                   >
-                    <div className='message-content'>
-                      <div className='message-text'>
-                        {option.question}
-                      </div>
+                    {/* <div className='message-content'> */}
+                    <div className={`message-text ${option.isOption ? 'message-option' : ''}`}>
+                      {option.question}
                     </div>
+                    {/* </div> */}
                   </div>
                 ))}
+
               </>
             )}
           </div>
@@ -287,7 +287,7 @@ function Chatbot() {
           </button>
         </div>
       </Modal>
-    </div>
+    </div >
   );
 }
 
