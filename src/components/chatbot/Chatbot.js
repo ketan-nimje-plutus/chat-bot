@@ -180,10 +180,6 @@ function Chatbot() {
         console.error('Error sending message:', error);
       });
   };
-  
-
-
-
   return (
     <div className='icon'>
       <Button

@@ -1,104 +1,47 @@
 [
-    {
-      "id": "welcome",
-      "message": "Hello!",
-      "trigger": "q-firstname"
-    },
-    {
-      "id": "q-firstname",
-      "message": "What is your name?",
-      "trigger": "firstname"
-    },
-    {
-      "id": "firstname",
-      "user": true,
-      "trigger": "rmcbot"
-    },
-    {
-      "id": "rmcbot",
-      "message": "Hi,{previousValue} I am Bot! What can I do for you?",
-      "trigger": "qtype"
-    },
-    {
-      "id": "qtype",
-      "options": [
-        {
-          "value": 1,
-          "label": "There is a vacancy in the company ?",
-          "trigger": "4"
-        },
-        {
-          "value": 2,
-          "label": "Work from home available ?",
-          "trigger": "3"
-        },
-        {
-          "value": 3,
-          "label": "contacts",
-          "trigger": "5"
-        }
-      ]
-    },
-    {
-      "id": "3",
-      "message": "Yes",
-      "trigger": "qtype"
-    },
-    {
-      "id": "4",
-      "message": "Yes",
-      "trigger": "qtype"
-    },
-    {
-      "id": "5",
-      "message": "MobileNumber : 1234567890, email:abc@gmail.com",
-      "trigger": "qtype"
-    },
-    {
-      "id": "q-submit",
-      "message": "Do you have any other questions !?",
-      "trigger": "submit"
-    },
-    {
-      "id": "submit",
-      "options": [
-        {
-          "value": "y",
-          "label": "Yes",
-          "trigger": "no-submit"
-        },
-        {
-          "value": "n",
-          "label": "No",
-          "trigger": "end-message"
-        }
-      ]
-    },
-    {
-      "id": "no-submit",
-      "options": [
-        {
-          "value": 1,
-          "label": "There is a vacancy in the company ?",
-          "trigger": "4"
-        },
-        {
-          "value": 2,
-          "label": "Work from home available ?",
-          "trigger": "3"
-        },
-        {
-          "value": 3,
-          "label": "contacts",
-          "trigger": "5"
-        }
-      ]
-    },
-    {
-      "id": "end-message",
-      "component": "<Post />",
-      "asMessage": true,
-      "end": true
-    }
-  ]
-  
+  {
+    "id": 1,
+    "question": "",
+    "answer": "Hi !  I am Plutus, your personal assistant to help you with Plutus related queries",
+    "option": [
+      {
+        "answer": "Our main office is located in City Ahmedabad,We have branches in Surat and City Rajkot as well",
+        "question": "Where is your company located?"
+      },
+      {
+        "answer": "We provide web development,Our services include digital marketing,We offer IT consulting",
+        "question": "What services does your company offer?"
+      },
+      {
+        "answer": "You can reach our customer support team at support@example.com,Feel free to contact us through our toll-free number: 123-456-7890",
+        "question": "How can I contact your customer support?"
+      },
+      {
+        "question": "job"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "question": "job",
+    "answer": "",
+    "option": [
+      {
+        "answer": "yes",
+        "question": "work from home available ?"
+      },
+      {
+        "answer": "yes",
+        "question": "There is a vacancy in the company ?"
+      },
+      {
+        "answer": "yes",
+        "question": "Work from home available ?"
+      },
+      {
+        "answer": "MobileNumber : 1234567890, email:abc@gmail.com",
+        "question": "contacts"
+      }
+    ]
+}
+]
