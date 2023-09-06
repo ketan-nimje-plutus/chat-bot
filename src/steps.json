@@ -1,0 +1,104 @@
+[
+    {
+      "id": "welcome",
+      "message": "Hello!",
+      "trigger": "q-firstname"
+    },
+    {
+      "id": "q-firstname",
+      "message": "What is your name?",
+      "trigger": "firstname"
+    },
+    {
+      "id": "firstname",
+      "user": true,
+      "trigger": "rmcbot"
+    },
+    {
+      "id": "rmcbot",
+      "message": "Hi,{previousValue} I am Bot! What can I do for you?",
+      "trigger": "qtype"
+    },
+    {
+      "id": "qtype",
+      "options": [
+        {
+          "value": 1,
+          "label": "There is a vacancy in the company ?",
+          "trigger": "4"
+        },
+        {
+          "value": 2,
+          "label": "Work from home available ?",
+          "trigger": "3"
+        },
+        {
+          "value": 3,
+          "label": "contacts",
+          "trigger": "5"
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "message": "Yes",
+      "trigger": "qtype"
+    },
+    {
+      "id": "4",
+      "message": "Yes",
+      "trigger": "qtype"
+    },
+    {
+      "id": "5",
+      "message": "MobileNumber : 1234567890, email:abc@gmail.com",
+      "trigger": "qtype"
+    },
+    {
+      "id": "q-submit",
+      "message": "Do you have any other questions !?",
+      "trigger": "submit"
+    },
+    {
+      "id": "submit",
+      "options": [
+        {
+          "value": "y",
+          "label": "Yes",
+          "trigger": "no-submit"
+        },
+        {
+          "value": "n",
+          "label": "No",
+          "trigger": "end-message"
+        }
+      ]
+    },
+    {
+      "id": "no-submit",
+      "options": [
+        {
+          "value": 1,
+          "label": "There is a vacancy in the company ?",
+          "trigger": "4"
+        },
+        {
+          "value": 2,
+          "label": "Work from home available ?",
+          "trigger": "3"
+        },
+        {
+          "value": 3,
+          "label": "contacts",
+          "trigger": "5"
+        }
+      ]
+    },
+    {
+      "id": "end-message",
+      "component": "<Post />",
+      "asMessage": true,
+      "end": true
+    }
+  ]
+  
