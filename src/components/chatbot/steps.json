@@ -2,7 +2,7 @@
   {
     "id": 1,
     "question": "",
-    "answer": "Hi !  I am Plutus, your personal assistant to help you with Plutus related queries",
+    "answer": "Hi ! I am Plutus, your personal assistant to help you with Plutus related queries",
     "option": [
       {
         "answer": "Our main office is located in City Ahmedabad,We have branches in Surat and City Rajkot as well",
@@ -17,14 +17,14 @@
         "question": "How can I contact your customer support?"
       },
       {
-        "question": "job"
+        "question": "job",
+        "answer":null
       }
     ]
   },
   {
     "id": 2,
     "question": "job",
-    "answer": "",
     "option": [
       {
         "answer": "yes",
