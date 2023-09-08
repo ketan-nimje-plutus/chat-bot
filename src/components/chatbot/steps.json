@@ -2,10 +2,10 @@
   {
     "id": 1,
     "question": "",
-    "answer": "Hi ! I am Plutus, your personal assistant to help you with Plutus related queries",
+    "answer": "Welcome to the chat!",
     "option": [
       {
-        "answer": "Our main office is located in City Ahmedabad,We have branches in Surat and City Rajkot as well",
+        "answer": null,
         "question": "Where is your company located?"
       },
       {
@@ -17,31 +17,100 @@
         "question": "How can I contact your customer support?"
       },
       {
-        "question": "job",
-        "answer":null
+        "question": "Vacancy in your company",
+        "answer": null
       }
     ]
   },
   {
     "id": 2,
-    "question": "job",
+    "question": "Vacancy in your company",
     "option": [
       {
-        "answer": "yes",
-        "question": "work from home available ?"
+        "answer":null,
+        "question": "Ahmedabad"
       },
       {
-        "answer": "yes",
-        "question": "There is a vacancy in the company ?"
-      },
-      {
-        "answer": "yes",
-        "question": "Work from home available ?"
-      },
-      {
-        "answer": "MobileNumber : 1234567890, email:abc@gmail.com",
-        "question": "contacts"
+        "answer":null,
+        "question": "Surat"
       }
     ]
-}
+  },
+  {
+    "id": 3,
+    "question": "Where is your company located?",
+    "option": [
+      {
+        "answer": "Plutus Technologies Pvt. Ltd.  1222-23, Zion Z1,Off Sindhu Bhavan Marg,Bodakdev, Ahmedabad-380054,Gujarat, India.",
+        "question": "Ahmedabad"
+      },
+      {
+        "answer": "Plutus Technologies Pvt. Ltd.  122-23, silver business point ,Mota Varachha, Surat,Gujarat, India.",
+        "question": "Surat"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "question": "Surat",
+    "option": [
+      {
+        "answer":null,
+        "question": "NodeJS Developer"
+      },
+      {
+        "answer":null,
+        "question": "ReactJS Developer"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "question": "NodeJS Developer",
+    "option": [
+          {
+            "question": "Work from Home ?",
+            "answer":"No Sorry"
+          },
+          {
+            "question": "Work from Office ?",
+            "answer":"No Sorry"
+          }
+    ]
+  },
+  {
+    "id": 6,
+    "question": "ReactJS Developer",
+    "option": [
+      {
+        "answer":null,
+        "question": "Apply For a Job"
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "question": "Work from Home ?",
+    "answer":"No Sorry"
+  },
+  {
+    "id": 8,
+    "question": "Work from Office ?",
+    "answer":"No Sorry"
+  },
+  {
+    "id": 8,
+    "question": "Ahmedabad",
+    "option": [
+      {
+        "answer":null,
+        "question": "NodeJS Developer"
+      },
+      {
+        "answer":null,
+        "question": "ReactJS Developer"
+      }
+    ]
+  }
+  
 ]

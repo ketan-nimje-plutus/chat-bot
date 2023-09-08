@@ -7,13 +7,13 @@ import Chatbot from './components/chatbot/Chatbot';
 const App = () => {
   return (
     <Router>
-      <main className=".bg-light">
-        <Container>
+      {/* <main className=".bg-light"> */}
+        {/* <Container> */}
           <div className="bot">
             <Route path="/" component={Chatbot} exact />
           </div>
-        </Container>
-      </main>
+        {/* </Container> */}
+      {/* </main> */}
     </Router>
   );
 }
