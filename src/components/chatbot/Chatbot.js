@@ -2,7 +2,9 @@ import React, { useRef, useState, useEffect } from 'react';
 import { AiOutlinePlus, AiOutlineMinus, AiOutlineSend } from 'react-icons/ai';
 import Modal from 'react-bootstrap/Modal';
 import './ChatBot.css';
-import data from './steps.json'
+import data from './steps.json';
+import { Image } from 'react-bootstrap';
+// import himalayanMountains from "../../../public/himalayanMountains.jpg";
 
 function Chatbot() {
   const [showChat, setShowChat] = useState(false);
@@ -21,11 +23,10 @@ function Chatbot() {
   };
 
   useEffect(() => {
-    startChat()
-    callChatbotAPI()
+    startChat();
+    callChatbotAPI();
     scrollToBottom();
   }, []);
-
 
   const startChat = () => {
     setShowChat(true);
@@ -42,6 +43,7 @@ function Chatbot() {
     setChatMessages([]);
     setSelectedOption(null);
   };
+
   const handleOptionClick = (answer, question) => {
     setSelectedOption(question);
     const selectedOptionMessage = {
@@ -74,13 +76,17 @@ function Chatbot() {
           if (typingMessageIndex >= 0) {
             messagesToUpdate.splice(typingMessageIndex, 1);
             if (answer === null || answer === '') {
-              const emptySpaceMessage = {
-                text: '',
-                isBot: true,
-                isOption: false,
-                timestamp: new Date().toLocaleTimeString(),
-              };
-              messagesToUpdate.push(emptySpaceMessage);
+              const selectedOptions =
+                jsonData.find((data) => data.question === question)?.option;
+              if (selectedOptions) {
+                const optionMessages = selectedOptions.map((option) => ({
+                  text: option.question,
+                  isBot: true,
+                  isOption: true,
+                  onClick: () => handleOptionClick(option.answer, option.question),
+                }));
+                messagesToUpdate.push(...optionMessages);
+              }
             } else {
               const botResponseMessage = {
                 text: answer,
@@ -88,19 +94,20 @@ function Chatbot() {
                 isOption: false,
                 timestamp: new Date().toLocaleTimeString(),
               };
-              messagesToUpdate.push(botResponseMessage);
-            }
   
-            const selectedOptions =
-              jsonData.find((data) => data.question === question)?.option;
-            if (selectedOptions) {
-              const optionMessages = selectedOptions.map((option) => ({
-                text: option.question,
-                isBot: true,
-                isOption: true,
-                onClick: () => handleOptionClick(option.answer, option.question),
-              }));
-              messagesToUpdate.push(...optionMessages);
+              const selectedOptions =
+                jsonData.find((data) => data.question === question)?.option;
+              if (selectedOptions) {
+                const optionMessages = selectedOptions.map((option) => ({
+                  text: option.question,
+                  isBot: true,
+                  isOption: true,
+                  onClick: () => handleOptionClick(option.answer, option.question),
+                }));
+                messagesToUpdate.push(botResponseMessage, ...optionMessages);
+              } else {
+                messagesToUpdate.push(botResponseMessage);
+              }
             }
   
             return messagesToUpdate;
@@ -110,17 +117,15 @@ function Chatbot() {
         });
         scrollToBottom();
       }, 2000);
-    }, 0); 
+    });
   };
   
-
-
 
   const sendMessage = () => {
     if (inputMessage.trim() === '') return;
     const newUserMessage = {
       text: inputMessage,
-      isBot: false, 
+      isBot: false,
       timestamp: new Date().toLocaleTimeString(),
     };
   
@@ -134,41 +139,47 @@ function Chatbot() {
     setTimeout(() => {
       setIsLoading(false);
       const matchedData = jsonData.find((data) => data.question === inputMessage);
+      const updatedMessages = [...updatedMessagesWithTyping.slice(0, -1)];
+  
       if (matchedData) {
         const botResponseMessage = {
           text: matchedData.answer,
           isBot: true,
           timestamp: new Date().toLocaleTimeString(),
         };
-        const optionsMessages = matchedData.option.map((option) => ({
+        updatedMessages.push(botResponseMessage);
+  
+        if (matchedData.option && matchedData.option.length > 0) {
+          // If options are present, add them to the messages
+          const optionsMessages = matchedData.option.map((option) => ({
+            text: option.question,
+            isBot: true,
+            isOption: true,
+            onClick: () => handleOptionClick(option.answer, option.question),
+          }));
+          updatedMessages.push(...optionsMessages);
+        }
+  
+        console.log(updatedMessages, 'updatedMessages123456789-');
+      } else {
+        const defaultOptions = [{ question: "How can I contact your customer support?" }, { question: "Hire Resources?" }];
+        const defaultOptionsMessages = defaultOptions.map((option) => ({
           text: option.question,
           isBot: true,
           isOption: true,
           onClick: () => handleOptionClick(option.answer, option.question),
         }));
-        const updatedMessages = [
-          ...updatedMessagesWithTyping.slice(0, -1),
-          botResponseMessage,
-          ...optionsMessages, 
-        ];
-        console.log(updatedMessages, 'updatedMessages123456789-');
-        setChatMessages(updatedMessages);
-        scrollToBottom();
-      } else {
-        const errorMessage = {
-          text: 'Sorry, I couldn\'t find a matching response for your question.',
-          isBot: true,
-          timestamp: new Date().toLocaleTimeString(),
-        };
-        const updatedMessages = [...updatedMessagesWithTyping.slice(0, -1), errorMessage];
+        updatedMessages.push(...defaultOptionsMessages);
+  
         console.log(updatedMessages, 'update1233456');
-        setChatMessages(updatedMessages);
       }
+      setChatMessages(updatedMessages);
       setSelectedOption(null);
+      scrollToBottom();
     }, 2000);
-    scrollToBottom();
   };
   
+
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       sendMessage();
@@ -176,7 +187,7 @@ function Chatbot() {
   };
 
   const callChatbotAPI = () => {
-    console.log("callChatbotAPI", "callChatbotAPIcallChatbotAPI")
+    console.log("callChatbotAPI", "callChatbotAPIcallChatbotAPI");
     const matchedData = jsonData.find((data) => data.question === inputMessage);
 
     if (matchedData) {
@@ -197,15 +208,22 @@ function Chatbot() {
       });
 
       const updatedMessages = [botResponseMessage, ...optionsMessages];
-      console.log(updatedMessages, 'updatedMessages13,')
+      console.log(updatedMessages, 'updatedMessages13,');
       setChatMessages(updatedMessages);
     } else {
-      const errorMessage = {
-        text: 'Sorry, I couldn\'t find a matching response for your question.',
+      // const errorMessage = {
+      //   text: 'Sorry, I couldn\'t find a matching response for your question.',
+      //   isBot: true,
+      //   timestamp: new Date().toLocaleTimeString(),
+      // };
+      const defaultOptions = [{ question: "How can I contact your customer support?" }, { question: "Hire Resources?" }];
+      const defaultOptionsMessages = defaultOptions.map((option) => ({
+        text: option.question,
         isBot: true,
-        timestamp: new Date().toLocaleTimeString(),
-      };
-      const updatedMessages = [errorMessage];
+        isOption: true,
+        onClick: () => handleOptionClick(option.answer, option.question),
+      }));
+      const updatedMessages = [defaultOptionsMessages];
       setChatMessages(updatedMessages);
     }
   };
@@ -220,6 +238,7 @@ function Chatbot() {
           <div className='message-text'>
             Hi! I am Plutus, your personal assistant to help you with Plutus-related queries
           </div>
+          {/* <Image src="/pblic/himalayanMountains.jpg" alt='img'/> */}
           <div className='chat-messages' ref={chatContainerRef}>
             {chatMessages?.map((message, index) => (
               <div
@@ -227,10 +246,12 @@ function Chatbot() {
                 className={`chat-message ${message.isBot ? 'left' : 'right'} ${message.isOption ? 'option-message' : ''}`}
                 onClick={message.isOption ? message.onClick : null}
               >
-               {message.text&& <div className={`message-text ${message.isOption ? 'message-option' : ''}`}>
-                  {console.log(message.text, 'message.text')}
-                  {message.text&& message.text}
-                </div>} 
+                {message.text && (
+                  <div className={`message-text ${message.isOption ? 'message-option' : ''}`}>
+                    {console.log(message.text, 'message.text')}
+                    {message.text && message.text}
+                  </div>
+                )}
                 {!message.isOption && (
                   <div className='message-timestamp'>
                     {new Date().toLocaleString('en-US', {
@@ -245,10 +266,9 @@ function Chatbot() {
           </div>
 
           {isLoading ? (
-              <p className='typingbox'>Typing...</p>
+            <p className='typingbox'>Typing...</p>
           ) : null}
         </Modal.Body>
-
 
         <div className='chat-input'>
           <input

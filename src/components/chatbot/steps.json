@@ -9,15 +9,21 @@
         "question": "Where is your company located?"
       },
       {
-        "answer": "We provide web development,Our services include digital marketing,We offer IT consulting",
         "question": "What services does your company offer?"
       },
       {
-        "answer": "You can reach our customer support team at support@example.com,Feel free to contact us through our toll-free number: 123-456-7890",
         "question": "How can I contact your customer support?"
       },
       {
         "question": "Vacancy in your company",
+        "answer": null
+      },
+      {
+        "question": "Hire Resources?",
+        "answer": null
+      },
+      {
+        "question": "Job Posting and Application:",
         "answer": null
       }
     ]
@@ -53,6 +59,7 @@
   {
     "id": 4,
     "question": "Surat",
+    "answer": "select on option",
     "option": [
       {
         "answer":null,
@@ -109,8 +116,125 @@
       {
         "answer":null,
         "question": "ReactJS Developer"
+      },
+      {
+        "answer":"We all know that WordPress is known for its Content Management System (CMS), but apart from CMS, WordPress is remarkably user-friendly and SEO-friendly. It gives you complete control on how to optimize your website for all popular search engines. It is one of the quickest evolving open-source platforms for web development solutions.In today’s digital world, your website truly represents the face of your business. A badly designed website could be worse than having no website at all. It not only makes difficult for you to attract your potential customers, also affects the growth of your business while battling with the competitors We, at Plutus Technologies, are inclined to deliver feature-rich and reliable websites. We have a strong, core dedicated team for WordPress web development to build custom portals, plugins, themes, and a lot more.",
+        "question": "WordPress Developer"
+      },
+      {
+        "answer":null,
+        "question": "Business Development Manager(BDM)"
       }
     ]
-  }
-  
+  },
+  {
+    "id": 8,
+    "question": "Business Development Manager(BDM)",
+    "answer": "We are looking for a Business Development Manager who will assist and get new long-term clients for our rapidly growing organization. As a BDM, your focus should be on sales by sourcing new clients, and by convincing existing clients to purchase more offerings. You should be able to build a strong clientele for the organization And have, Ability to handle a team of subordinates\nResponsibilities:\nFamiliarize yourself with all products and services offered by our company\nProcuring new clients through direct contact, and collaboration with the Business Development Department.\nAttending networking activities to research and connect with prospective clients.\nMaintaining meaningful relationships with existing clients to ensure that they are retained.\nSuggest upgrades or added products and services that may be of interest to clients.\nRequirements:\n5+ Years of experience as IT-BDM\n2+ Years of Management experience\nMinimum 2 Years of Experience in international software service-based platforms like Upwork, Fiverr, Freelancer.com, Flexjobs, Guru, PPH, etc.\nExperience in a service-based software development company.\nExtensive sales experience with international leads.\nEducation:\nComputer Engineering or MBA in Marketing\n(Bachelor's in Engineering + MBA is a Plus point)\nCommunication:\nEnglish",
+    "option": [
+      {
+        "answer": "https://web.plutustec.com/career",
+        "question": "Apply For a Job "
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "question": "Hire Resources?",
+    "answer": "Remote and contract basis",
+    "option": [
+      {
+        "question": "Hire PHP Developer",
+        "answer": "Plutustec places a premium on providing high-quality PHP solutions to our clients. Our PHP developers adhere to coding standards and industry best practises to ensure that your application is durable, secure, and bug-free. We conduct rigorous testing at each stage of development, including functional testing, performance testing, and security testing, to guarantee an effective UI.2.Agile Development Methodology=> We employ PHP developers who are well-versed in Agile principles, allowing them to adapt quickly to changing requirements, incorporate feedback, and deliver incremental updates. As a result of our adoption of an agile approach, we are able to ensure transparency, flexibility, and improved project outcomes.3. Advanced Framework Knowledge=> We have many years of experience working with popular PHP frameworks, including Laravel, Symfony, CodeIgniter, and CakePHP. In choosing Plutustec as your PHP developer, you get access to experts who can provide you with assistance in maximizing the performance potential of PHP frameworks for your project."
+      },
+      {
+        "answer":"Having been working on the Android platform for almost 5 years gives us diverse expertise and knowledge on app development. So far, we have catered to clients across various industries and sectors from health, automobile, and telecom, to the textile. Our Android app development services help you out to build apps with so much ease.",
+        "question": "Hire Android App Developer"
+      },
+      {
+        "answer":"Do you want to have an iPhone app for your business? Do you have an app idea in mind? Whatever your need is Plutus Technologies has a team of professional,expert iOS developers who build scalable and sturdy iOS apps for the customers. With more than 2 years of experience in iOS app development services, we have served clients from various sectors, industries, and verticals.Since its inception, Apple has been effortlessly and continuously redefined to give the best user experience to its users. With its unprecedented range of smart devices, Apple has ridiculously enhanced its brand value and demand for B2C and B2B iOS apps. Our iOS developers meticulously balance the app requirements, company objectives, and the target audience needs into the application with an eye-catching user interface. Clients can rely on us for intuitive and captivating iOS apps.",
+        "question": "Hire iOS App Developer"
+      },
+      {
+       
+        "question": "Hire Wordpress Developer",
+        "answer":"We all know that WordPress is known for its Content Management System (CMS), but apart from CMS, WordPress is remarkably user-friendly and SEO-friendly. It gives you complete control on how to optimize your website for all popular search engines. It is one of the quickest evolving open-source platforms for web development solutions.In today’s digital world, your website truly represents the face of your business. A badly designed website could be worse than having no website at all. It not only makes difficult for you to attract your potential customers, also affects the growth of your business while battling with the competitors.We, at Plutus Technologies, are inclined to deliver feature-rich and reliable websites. We have a strong, core dedicated team for WordPress web development to build custom portals, plugins, themes, and a lot more."
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "question": "What services does your company offer?",
+    "answer": "",
+    "option": [
+      {
+        "question": "Mobile App Development",
+        "answer": "Plutustec places a premium on providing high-quality PHP solutions to our clients. Our PHP developers adhere to coding standards and industry best practises to ensure that your application is durable, secure, and bug-free. We conduct rigorous testing at each stage of development, including functional testing, performance testing, and security testing, to guarantee an effective UI.2.Agile Development Methodology=> We employ PHP developers who are well-versed in Agile principles, allowing them to adapt quickly to changing requirements, incorporate feedback, and deliver incremental updates. As a result of our adoption of an agile approach, we are able to ensure transparency, flexibility, and improved project outcomes.3. Advanced Framework Knowledge=> We have many years of experience working with popular PHP frameworks, including Laravel, Symfony, CodeIgniter, and CakePHP. In choosing Plutustec as your PHP developer, you get access to experts who can provide you with assistance in maximizing the performance potential of PHP frameworks for your project."
+      },
+      {
+        "answer":"",
+        "question": "Web Development"
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "question": "Hire PHP Developer",
+    "answer": "Plutustec places a premium on providing high-quality PHP solutions to our clients. Our PHP developers adhere to coding standards and industry best practises to ensure that your application is durable, secure, and bug-free. We conduct rigorous testing at each stage of development, including functional testing, performance testing, and security testing, to guarantee an effective UI.2.Agile Development Methodology=> We employ PHP developers who are well-versed in Agile principles, allowing them to adapt quickly to changing requirements, incorporate feedback, and deliver incremental updates. As a result of our adoption of an agile approach, we are able to ensure transparency, flexibility, and improved project outcomes.3. Advanced Framework Knowledge=> We have many years of experience working with popular PHP frameworks, including Laravel, Symfony, CodeIgniter, and CakePHP. In choosing Plutustec as your PHP developer, you get access to experts who can provide you with assistance in maximizing the performance potential of PHP frameworks for your project."
+  },
+  {
+    "id": 12,
+    "question": "Web Development",
+    "option": [
+      {
+        "question": "ReactJS Development",
+        "answer": "=> Plutustec, a prominent ReactJS Development Company in India, has extensive experience in creating the best and most functional ReactJS-based web and mobile applications with the most stunning user interfaces for our global clients. We are a group of skilled and experienced ReactJS developers who can create client-centric solutions. => We develop high-end, scalable, and lightweight ReactJS solutions that smoothly integrate with third-party APIs and can be easily modified or updated. Designing new apps or customizing existing apps are just some of the services we offer for ReactJS development."
+      },
+      {
+        "answer":"https://web.plutustec.com/hire-reactjs-developer",
+        "question": "Hire ReactJs Developer?"
+      },
+      {
+        "answer":"=> https://web.plutustec.com/career",
+        "question": "Apply For a Job?"
+      },
+      {
+       
+        "question": "Hire Wordpress Developer",
+        "answer":"=> https://web.plutustec.com/career"
+      }
+    ]
+  }, 
+  {
+    "id": 13,
+    "question": "How can I contact your customer support?",
+    "option": [
+      {
+        "question": "toll-free number",
+        "answer": "123-456-7890"
+      },
+      {
+        "answer":"sales@plutustec.comus",
+        "question": "Email"
+      }
+    ]
+  } ,
+  {
+    "id": 14,
+    "question":"Job Posting and Application:",
+    "option": [
+      {
+        "question": "Resume Screening:",
+        "answer": "HR or recruiters review resumes to shortlist candidates based on their qualifications and experience. Example Questions:How does your past work experience align with the requirements of this job?Can you provide examples of specific projects or achievements from your resume?"
+      },
+      {
+        "question":"Technical Assessment:",
+        "answer": "Depending on the role, candidates may be asked to complete technical assessments or coding challenges.  Example Questions:Please write code to solve [specific problem].How do you approach debugging and troubleshooting technical issues?"
+      },
+      {
+        "question":"Technical Interview(s):",
+        "answer": "Candidates usually have one or more technical interviews with team members or technical leads.  Example Questions:Explain the principles of [specific technology or framework]. Can you walk us through a recent project you worked on?"
+      }
+    ]
+  } 
 ]

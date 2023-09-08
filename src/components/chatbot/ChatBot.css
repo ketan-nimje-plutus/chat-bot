@@ -106,11 +106,11 @@
 .chat-message.option-message {
     border-radius: 4px;
     margin: 5px;
-    /* padding: 8px 15px; */
-    display: inline-block;
+    display: initial;
     width: 50%;
 
     @media (max-width: 480px) {
+        display: inline-block;
         margin: 0;
         margin-bottom: 5px;
         margin-top: 5px;
