@@ -227,10 +227,10 @@ function Chatbot() {
                 className={`chat-message ${message.isBot ? 'left' : 'right'} ${message.isOption ? 'option-message' : ''}`}
                 onClick={message.isOption ? message.onClick : null}
               >
-                <div className={`message-text ${message.isOption ? 'message-option' : ''}`}>
+               {message.text&& <div className={`message-text ${message.isOption ? 'message-option' : ''}`}>
                   {console.log(message.text, 'message.text')}
-                  {message.text === null ? '' : message.text}
-                </div>
+                  {message.text&& message.text}
+                </div>} 
                 {!message.isOption && (
                   <div className='message-timestamp'>
                     {new Date().toLocaleString('en-US', {
