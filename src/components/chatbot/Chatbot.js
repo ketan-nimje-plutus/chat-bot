@@ -245,12 +245,7 @@ function Chatbot() {
           </div>
 
           {isLoading ? (
-            <div className="dot-loader">
-              <p>Typing</p>
-              <div className="dot"></div>
-              <div className="dot"></div>
-              <div className="dot"></div>
-            </div>
+              <p className='typingbox'>Typing...</p>
           ) : null}
         </Modal.Body>
 
