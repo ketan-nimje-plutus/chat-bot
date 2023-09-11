@@ -16,7 +16,7 @@
 }
 
 .modal-header {
-    background: rgb(41, 164, 205);
+    background: #f05454;
 }
 
 .btn-close {
@@ -36,7 +36,7 @@
 }
 
 .message-option {
-    color: rgb(41, 164, 205);
+    color: #f05454;
     border: 1px solid lightblue;
     border-radius: 5px !important;
     overflow: hidden;
@@ -44,13 +44,13 @@
 
     &:hover {
         color: white !important;
-        background-color: rgb(41, 164, 205) !important;
+        background-color: #f05454 !important;
     }
 }
 
 .input {
     border: 0;
-    border-top: 1px solid rgb(41, 164, 205);
+    border-top: 1px solid #f05454;
     font-size: 16px;
     outline: none;
     padding: 16px 52px 16px 10px;
@@ -97,11 +97,21 @@
     border-radius: 8px;
 } */
 
+.chat-box-scroll {
+    height: 100% !important;
+    overflow-y: scroll; 
+    scroll-behavior: smooth;
+  }
+
 .message-timestamp {
     font-size: 0.7em;
     color: #999;
     margin-top: 2px;
 }
+.chat-box-scroll::-webkit-scrollbar {
+    display: none;
+}
+
 
 .chat-message.option-message {
     border-radius: 4px;

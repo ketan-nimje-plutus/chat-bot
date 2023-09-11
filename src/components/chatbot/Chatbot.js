@@ -25,7 +25,7 @@ function Chatbot() {
   useEffect(() => {
     startChat();
     callChatbotAPI();
-    scrollToBottom();
+    scrollToBottom(); // Automatically scroll to the bottom when the component mounts.
   }, []);
 
   const startChat = () => {
@@ -53,7 +53,7 @@ function Chatbot() {
     };
   
     setChatMessages((prevMessages) => [...prevMessages, selectedOptionMessage]);
-  
+    scrollToBottom();
     setTimeout(() => {
       setChatMessages((prevMessages) => {
         const typingMessage = {
@@ -235,11 +235,13 @@ function Chatbot() {
           <Modal.Title className='title'>Plutus</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <div className='chat-box-scroll'  ref={chatContainerRef}>
+
           <div className='message-text'>
             Hi! I am Plutus, your personal assistant to help you with Plutus-related queries
           </div>
           {/* <Image src="/pblic/himalayanMountains.jpg" alt='img'/> */}
-          <div className='chat-messages' ref={chatContainerRef}>
+          <div className='chat-messages'>
             {chatMessages?.map((message, index) => (
               <div
                 key={index}
@@ -268,6 +270,8 @@ function Chatbot() {
           {isLoading ? (
             <p className='typingbox'>Typing...</p>
           ) : null}
+                    </div>
+
         </Modal.Body>
 
         <div className='chat-input'>

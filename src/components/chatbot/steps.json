@@ -2,239 +2,393 @@
   {
     "id": 1,
     "question": "",
-    "answer": "Welcome to the chat!",
+    "answer": "What are you primarily looking for, from us?",
     "option": [
       {
-        "answer": null,
-        "question": "Where is your company located?"
+        "answer": "Can you tell me little more about what kind of resources you'll want to hire for your project?",
+        "question": "Hire dedicated team"
       },
       {
-        "question": "What services does your company offer?"
+        "answer": "Please Select Frontend Developer or Backend Developer",
+        "question": "Start a new project"
       },
       {
-        "question": "How can I contact your customer support?"
-      },
-      {
-        "question": "Vacancy in your company",
-        "answer": null
-      },
-      {
-        "question": "Hire Resources?",
-        "answer": null
-      },
-      {
-        "question": "Job Posting and Application:",
-        "answer": null
+        "answer": "Please select your field of job",
+        "question": "Apply for Job"
       }
     ]
   },
   {
     "id": 2,
-    "question": "Vacancy in your company",
+    "question": "Hire dedicated team",
     "option": [
       {
-        "answer":null,
-        "question": "Ahmedabad"
+        "answer": "Can you please provide more details about the specific requirements you have for the backend developers you are looking to hire?",
+        "question": "Backend Devs"
       },
       {
-        "answer":null,
-        "question": "Surat"
+        "answer": "Can you please provide more details about the specific requirements you have for the Frontend developers you are looking to hire?",
+        "question": "Frontend Devs"
       }
     ]
   },
   {
     "id": 3,
-    "question": "Where is your company located?",
+    "question": "Backend Devs",
     "option": [
       {
-        "answer": "Plutus Technologies Pvt. Ltd.  1222-23, Zion Z1,Off Sindhu Bhavan Marg,Bodakdev, Ahmedabad-380054,Gujarat, India.",
-        "question": "Ahmedabad"
+        "answer": "Please select developers experience",
+        "question": "NodeJS Devs"
       },
       {
-        "answer": "Plutus Technologies Pvt. Ltd.  122-23, silver business point ,Mota Varachha, Surat,Gujarat, India.",
-        "question": "Surat"
+        "answer": "Please select developers experience",
+        "question": "PHP Devs"
       }
     ]
   },
   {
     "id": 4,
-    "question": "Surat",
-    "answer": "select on option",
+    "question": "Frontend Devs",
     "option": [
       {
-        "answer":null,
-        "question": "NodeJS Developer"
+        "answer": "Please select developers experience",
+        "question": "ReactJs Devs"
       },
       {
-        "answer":null,
-        "question": "ReactJS Developer"
-      }
-    ]
-  },
-  {
-    "id": 5,
-    "question": "NodeJS Developer",
-    "option": [
-          {
-            "question": "Work from Home ?",
-            "answer":"No Sorry"
-          },
-          {
-            "question": "Work from Office ?",
-            "answer":"No Sorry"
-          }
-    ]
-  },
-  {
-    "id": 6,
-    "question": "ReactJS Developer",
-    "option": [
-      {
-        "answer":null,
-        "question": "Apply For a Job"
+        "answer": "Please select developers experience",
+        "question": "TypeScript Devs"
       }
     ]
   },
   {
     "id": 7,
-    "question": "Work from Home ?",
-    "answer":"No Sorry"
-  },
-  {
-    "id": 8,
-    "question": "Work from Office ?",
-    "answer":"No Sorry"
-  },
-  {
-    "id": 8,
-    "question": "Ahmedabad",
+    "question": "ReactJs Devs",
     "option": [
       {
-        "answer":null,
-        "question": "NodeJS Developer"
+        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "question": "1 Year to 2 Year"
       },
       {
-        "answer":null,
-        "question": "ReactJS Developer"
+        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "question": "2 Year to 3 Year"
       },
       {
-        "answer":"We all know that WordPress is known for its Content Management System (CMS), but apart from CMS, WordPress is remarkably user-friendly and SEO-friendly. It gives you complete control on how to optimize your website for all popular search engines. It is one of the quickest evolving open-source platforms for web development solutions.In today’s digital world, your website truly represents the face of your business. A badly designed website could be worse than having no website at all. It not only makes difficult for you to attract your potential customers, also affects the growth of your business while battling with the competitors We, at Plutus Technologies, are inclined to deliver feature-rich and reliable websites. We have a strong, core dedicated team for WordPress web development to build custom portals, plugins, themes, and a lot more.",
-        "question": "WordPress Developer"
-      },
-      {
-        "answer":null,
-        "question": "Business Development Manager(BDM)"
+        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "question": "More then 3 Year"
       }
     ]
   },
   {
     "id": 8,
-    "question": "Business Development Manager(BDM)",
-    "answer": "We are looking for a Business Development Manager who will assist and get new long-term clients for our rapidly growing organization. As a BDM, your focus should be on sales by sourcing new clients, and by convincing existing clients to purchase more offerings. You should be able to build a strong clientele for the organization And have, Ability to handle a team of subordinates\nResponsibilities:\nFamiliarize yourself with all products and services offered by our company\nProcuring new clients through direct contact, and collaboration with the Business Development Department.\nAttending networking activities to research and connect with prospective clients.\nMaintaining meaningful relationships with existing clients to ensure that they are retained.\nSuggest upgrades or added products and services that may be of interest to clients.\nRequirements:\n5+ Years of experience as IT-BDM\n2+ Years of Management experience\nMinimum 2 Years of Experience in international software service-based platforms like Upwork, Fiverr, Freelancer.com, Flexjobs, Guru, PPH, etc.\nExperience in a service-based software development company.\nExtensive sales experience with international leads.\nEducation:\nComputer Engineering or MBA in Marketing\n(Bachelor's in Engineering + MBA is a Plus point)\nCommunication:\nEnglish",
+    "question": "NodeJS Devs",
+    "answer": "please select developers experience",
     "option": [
       {
-        "answer": "https://web.plutustec.com/career",
-        "question": "Apply For a Job "
+        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "question": "1 Year to 2 Year"
+      },
+      {
+        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "question": "2 Year to 3 Year"
+      },
+      {
+        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "question": "More then 3 Year"
       }
     ]
   },
   {
     "id": 9,
-    "question": "Hire Resources?",
-    "answer": "Remote and contract basis",
+    "question": "TypeScript Devs",
     "option": [
       {
-        "question": "Hire PHP Developer",
-        "answer": "Plutustec places a premium on providing high-quality PHP solutions to our clients. Our PHP developers adhere to coding standards and industry best practises to ensure that your application is durable, secure, and bug-free. We conduct rigorous testing at each stage of development, including functional testing, performance testing, and security testing, to guarantee an effective UI.2.Agile Development Methodology=> We employ PHP developers who are well-versed in Agile principles, allowing them to adapt quickly to changing requirements, incorporate feedback, and deliver incremental updates. As a result of our adoption of an agile approach, we are able to ensure transparency, flexibility, and improved project outcomes.3. Advanced Framework Knowledge=> We have many years of experience working with popular PHP frameworks, including Laravel, Symfony, CodeIgniter, and CakePHP. In choosing Plutustec as your PHP developer, you get access to experts who can provide you with assistance in maximizing the performance potential of PHP frameworks for your project."
+        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "question": "1 Year to 2 Year"
       },
       {
-        "answer":"Having been working on the Android platform for almost 5 years gives us diverse expertise and knowledge on app development. So far, we have catered to clients across various industries and sectors from health, automobile, and telecom, to the textile. Our Android app development services help you out to build apps with so much ease.",
-        "question": "Hire Android App Developer"
+        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "question": "2 Year to 3 Year"
       },
       {
-        "answer":"Do you want to have an iPhone app for your business? Do you have an app idea in mind? Whatever your need is Plutus Technologies has a team of professional,expert iOS developers who build scalable and sturdy iOS apps for the customers. With more than 2 years of experience in iOS app development services, we have served clients from various sectors, industries, and verticals.Since its inception, Apple has been effortlessly and continuously redefined to give the best user experience to its users. With its unprecedented range of smart devices, Apple has ridiculously enhanced its brand value and demand for B2C and B2B iOS apps. Our iOS developers meticulously balance the app requirements, company objectives, and the target audience needs into the application with an eye-catching user interface. Clients can rely on us for intuitive and captivating iOS apps.",
-        "question": "Hire iOS App Developer"
-      },
-      {
-       
-        "question": "Hire Wordpress Developer",
-        "answer":"We all know that WordPress is known for its Content Management System (CMS), but apart from CMS, WordPress is remarkably user-friendly and SEO-friendly. It gives you complete control on how to optimize your website for all popular search engines. It is one of the quickest evolving open-source platforms for web development solutions.In today’s digital world, your website truly represents the face of your business. A badly designed website could be worse than having no website at all. It not only makes difficult for you to attract your potential customers, also affects the growth of your business while battling with the competitors.We, at Plutus Technologies, are inclined to deliver feature-rich and reliable websites. We have a strong, core dedicated team for WordPress web development to build custom portals, plugins, themes, and a lot more."
-      }
-    ]
-  },
-  {
-    "id": 11,
-    "question": "What services does your company offer?",
-    "answer": "",
-    "option": [
-      {
-        "question": "Mobile App Development",
-        "answer": "Plutustec places a premium on providing high-quality PHP solutions to our clients. Our PHP developers adhere to coding standards and industry best practises to ensure that your application is durable, secure, and bug-free. We conduct rigorous testing at each stage of development, including functional testing, performance testing, and security testing, to guarantee an effective UI.2.Agile Development Methodology=> We employ PHP developers who are well-versed in Agile principles, allowing them to adapt quickly to changing requirements, incorporate feedback, and deliver incremental updates. As a result of our adoption of an agile approach, we are able to ensure transparency, flexibility, and improved project outcomes.3. Advanced Framework Knowledge=> We have many years of experience working with popular PHP frameworks, including Laravel, Symfony, CodeIgniter, and CakePHP. In choosing Plutustec as your PHP developer, you get access to experts who can provide you with assistance in maximizing the performance potential of PHP frameworks for your project."
-      },
-      {
-        "answer":"",
-        "question": "Web Development"
+        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "question": "3 Year to 4 Year"
       }
     ]
   },
   {
     "id": 10,
-    "question": "Hire PHP Developer",
-    "answer": "Plutustec places a premium on providing high-quality PHP solutions to our clients. Our PHP developers adhere to coding standards and industry best practises to ensure that your application is durable, secure, and bug-free. We conduct rigorous testing at each stage of development, including functional testing, performance testing, and security testing, to guarantee an effective UI.2.Agile Development Methodology=> We employ PHP developers who are well-versed in Agile principles, allowing them to adapt quickly to changing requirements, incorporate feedback, and deliver incremental updates. As a result of our adoption of an agile approach, we are able to ensure transparency, flexibility, and improved project outcomes.3. Advanced Framework Knowledge=> We have many years of experience working with popular PHP frameworks, including Laravel, Symfony, CodeIgniter, and CakePHP. In choosing Plutustec as your PHP developer, you get access to experts who can provide you with assistance in maximizing the performance potential of PHP frameworks for your project."
+    "question": "PHP Devs",
+    "option": [
+      {
+        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "question": "1 Year to 2 Year"
+      },
+      {
+        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "question": "2 Year to 3 Year"
+      },
+      {
+        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "question": "More then 3 Year"
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "question": "Start a new project",
+    "option": [
+      {
+        "answer": "Please Select language",
+        "question": "Backend Developer"
+      },
+      {
+        "answer": "Please Select language",
+        "question": "Frontend Developer"
+      }
+    ]
   },
   {
     "id": 12,
-    "question": "Web Development",
+    "question": "Backend Developer",
     "option": [
       {
-        "question": "ReactJS Development",
-        "answer": "=> Plutustec, a prominent ReactJS Development Company in India, has extensive experience in creating the best and most functional ReactJS-based web and mobile applications with the most stunning user interfaces for our global clients. We are a group of skilled and experienced ReactJS developers who can create client-centric solutions. => We develop high-end, scalable, and lightweight ReactJS solutions that smoothly integrate with third-party APIs and can be easily modified or updated. Designing new apps or customizing existing apps are just some of the services we offer for ReactJS development."
+        "answer": "Please Select Database",
+        "question": "Nodejs"
       },
       {
-        "answer":"https://web.plutustec.com/hire-reactjs-developer",
-        "question": "Hire ReactJs Developer?"
-      },
-      {
-        "answer":"=> https://web.plutustec.com/career",
-        "question": "Apply For a Job?"
-      },
-      {
-       
-        "question": "Hire Wordpress Developer",
-        "answer":"=> https://web.plutustec.com/career"
+        "answer": "Please Select Database",
+        "question": "PHP"
       }
     ]
-  }, 
+  },
   {
     "id": 13,
-    "question": "How can I contact your customer support?",
+    "question": "Frontend Developer",
     "option": [
       {
-        "question": "toll-free number",
-        "answer": "123-456-7890"
+        "answer": "What is the project timeline or deadline?",
+        "question": "ReactJS"
       },
       {
-        "answer":"sales@plutustec.comus",
-        "question": "Email"
+        "answer": "What is the project timeline or deadline?",
+        "question": "TypeScript"
       }
     ]
-  } ,
+  },
   {
     "id": 14,
-    "question":"Job Posting and Application:",
+    "question": "Nodejs",
     "option": [
       {
-        "question": "Resume Screening:",
-        "answer": "HR or recruiters review resumes to shortlist candidates based on their qualifications and experience. Example Questions:How does your past work experience align with the requirements of this job?Can you provide examples of specific projects or achievements from your resume?"
+        "answer": "What is the project timeline or deadline?",
+        "question": "Mongodb"
       },
       {
-        "question":"Technical Assessment:",
-        "answer": "Depending on the role, candidates may be asked to complete technical assessments or coding challenges.  Example Questions:Please write code to solve [specific problem].How do you approach debugging and troubleshooting technical issues?"
-      },
-      {
-        "question":"Technical Interview(s):",
-        "answer": "Candidates usually have one or more technical interviews with team members or technical leads.  Example Questions:Explain the principles of [specific technology or framework]. Can you walk us through a recent project you worked on?"
+        "answer": "What is the project timeline or deadline?",
+        "question": "mysql"
       }
     ]
-  } 
+  },
+  {
+    "id": 15,
+    "question": "PHP",
+    "option": [
+      {
+        "answer": "What is the project timeline or deadline?",
+        "question": "Mongodb"
+      },
+      {
+        "answer": "What is the project timeline or deadline?",
+        "question": "mysql"
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "question": "ReactJS",
+    "option": [
+      {
+        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "question": "2 month"
+      },
+      {
+        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "question": "6 month"
+      },
+      {
+        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "question": "More then 6 month"
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "question": "TypeScript",
+    "option": [
+      {
+        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "question": "2 month"
+      },
+      {
+        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "question": "6 month"
+      },
+      {
+        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "question": "More then 6 month"
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "question": "Mongodb",
+    "option": [
+      {
+        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "question": "2 month"
+      },
+      {
+        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "question": "6 month"
+      },
+      {
+        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "question": "More then 6 month"
+      }
+    ]
+  },
+  {
+    "id": 19,
+    "question": "mysql",
+    "option": [
+      {
+        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "question": "2 month"
+      },
+      {
+        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "question": "6 month"
+      },
+      {
+        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "question": "More then 6 month"
+      }
+    ]
+  },
+  {
+    "id": 19,
+    "question": "Apply for Job",
+    "option": [
+      {
+        "answer": "please select your experience",
+        "question": "NodeJS Dev"
+      },
+      {
+        "answer": "please select your experience",
+        "question": "ReactJS Dev"
+      },
+      {
+        "answer": "please select your experience",
+        "question": "Full stack Dev"
+      },
+      {
+        "answer": "please select your experience",
+        "question": "TypeScript Dev"
+      },
+      {
+        "answer": "please select your experience",
+        "question": "PHP Dev"
+      }
+    ]
+  },
+  {
+    "id": 20,
+    "question": "NodeJS Dev",
+    "option": [
+      {
+        "answer": "Please send your resume to this email:-hr@plutustec.com, and our HR department will contact you.",
+        "question": "1 Year to 2 Year"
+      },
+      {
+        "answer": "Please send your resume to this email:-hr@plutustec.com, and our HR department will contact you.",
+        "question": "More then 3 Year"
+      },
+      {
+        "answer": "Please send your resume to this email:-hr@plutustec.com, and our HR department will contact you.",
+        "question": "More then 3 Year"
+      }
+    ]
+  },
+  {
+    "id": 21,
+    "question": "ReactJS Dev",
+    "option": [
+      {
+        "answer": "Please send your resume to this email:-hr@plutustec.com, and our HR department will contact you.",
+        "question": "1 Year to 2 Year"
+      },
+      {
+        "answer": "Please send your resume to this email:-hr@plutustec.com, and our HR department will contact you.",
+        "question": "More then 3 Year"
+      },
+      {
+        "answer": "Please send your resume to this email:-hr@plutustec.com, and our HR department will contact you.",
+        "question": "More then 3 Year"
+      }
+    ]
+  },
+  {
+    "id": 22,
+    "question": "Full stack Dev",
+    "option": [
+      {
+        "answer": "Please send your resume to this email:-hr@plutustec.com, and our HR department will contact you.",
+        "question": "1 Year to 2 Year"
+      },
+      {
+        "answer": "Please send your resume to this email:-hr@plutustec.com, and our HR department will contact you.",
+        "question": "More then 3 Year"
+      },
+      {
+        "answer": "Please send your resume to this email:-hr@plutustec.com, and our HR department will contact you.",
+        "question": "More then 3 Year"
+      }
+    ]
+  },
+  {
+    "id": 23,
+    "question": "TypeScript Dev",
+    "option": [
+      {
+        "answer": "Please send your resume to this email:-hr@plutustec.com, and our HR department will contact you.",
+        "question": "1 Year to 2 Year"
+      },
+      {
+        "answer": "Please send your resume to this email:-hr@plutustec.com, and our HR department will contact you.",
+        "question": "More then 3 Year"
+      },
+      {
+        "answer": "Please send your resume to this email:-hr@plutustec.com, and our HR department will contact you.",
+        "question": "More then 3 Year"
+      }
+    ]
+  },
+  {
+    "id": 23,
+    "question": "PHP Dev",
+    "option": [
+      {
+        "answer": "Please send your resume to this email:-hr@plutustec.com, and our HR department will contact you.",
+        "question": "1 Year to 2 Year"
+      },
+      {
+        "answer": "Please send your resume to this email:-hr@plutustec.com, and our HR department will contact you.",
+        "question": "More then 3 Year"
+      },
+      {
+        "answer": "Please send your resume to this email:-hr@plutustec.com, and our HR department will contact you.",
+        "question": "More then 3 Year"
+      }
+    ]
+  }
 ]
