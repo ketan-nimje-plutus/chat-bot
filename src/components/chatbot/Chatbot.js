@@ -190,6 +190,7 @@ function Chatbot() {
     }, 2000);
   };
 
+
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       sendMessage();

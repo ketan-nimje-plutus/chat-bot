@@ -29,6 +29,9 @@
       {
         "answer": "Can you please provide more details about the specific requirements you have for the Frontend developers you are looking to hire?",
         "question": "Frontend Devs"
+      },     {
+        "answer": "Can you please provide more details about the specific requirements you have for the Full stack developers you are looking to hire?",
+        "question": "Full stack Devs"
       }
     ]
   },
@@ -57,6 +60,56 @@
       {
         "answer": "Please select developers experience",
         "question": "TypeScript Devs"
+      }
+    ]
+  },
+  {
+    "id": 31,
+    "question": "Full stack Devs",
+    "option": [
+      {
+        "answer": "Please select developers experience",
+        "question": "ReactJs and Nodejs Devs"
+      },
+      {
+        "answer": "Please select developers experience",
+        "question": "TypeScript and Nodejs Devs"
+      }
+    ]
+  },
+  {
+    "id": 32,
+    "question": "ReactJs and Nodejs Devs",
+    "option": [
+      {
+        "answer": "Please provide your contact information so that Sales Team can reach out to you.",
+        "question": "1 Year to 2 Year"
+      },
+      {
+        "answer": "Please provide your contact information so that Sales Team can reach out to you.",
+        "question": "2 Year to 3 Year"
+      },
+      {
+        "answer": "Please provide your contact information so that Sales Team can reach out to you.",
+        "question": "More then 3 Year"
+      }
+    ]
+  },
+  {
+    "id": 33,
+    "question": "TypeScript and Nodejs Devs",
+    "option": [
+      {
+        "answer": "Please provide your contact information so that Sales Team can reach out to you.",
+        "question": "1 Year to 2 Year"
+      },
+      {
+        "answer": "Please provide your contact information so that Sales Team can reach out to you.",
+        "question": "2 Year to 3 Year"
+      },
+      {
+        "answer": "Please provide your contact information so that Sales Team can reach out to you.",
+        "question": "More then 3 Year"
       }
     ]
   },
