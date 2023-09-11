@@ -11,7 +11,6 @@ function Chatbot() {
   const [chatMessages, setChatMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
   const [selectedOption, setSelectedOption] = useState(null);
-  const [responseMessage, setResponseMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [jsonData, setJsonData] = useState(data);
   const chatContainerRef = useRef(null);
@@ -25,7 +24,7 @@ function Chatbot() {
   useEffect(() => {
     startChat();
     callChatbotAPI();
-    scrollToBottom(); // Automatically scroll to the bottom when the component mounts.
+    scrollToBottom();
   }, []);
 
   const startChat = () => {
@@ -51,7 +50,7 @@ function Chatbot() {
       isBot: false,
       timestamp: new Date().toLocaleTimeString(),
     };
-  
+
     setChatMessages((prevMessages) => [...prevMessages, selectedOptionMessage]);
     scrollToBottom();
     setTimeout(() => {
@@ -65,14 +64,14 @@ function Chatbot() {
         return [...prevMessages, typingMessage];
       });
       scrollToBottom();
-  
+
       setTimeout(() => {
         setChatMessages((prevMessages) => {
           const messagesToUpdate = [...prevMessages];
           const typingMessageIndex = messagesToUpdate.findIndex(
             (message) => message.text === 'Typing...'
           );
-  
+
           if (typingMessageIndex >= 0) {
             messagesToUpdate.splice(typingMessageIndex, 1);
             if (answer === null || answer === '') {
@@ -94,7 +93,7 @@ function Chatbot() {
                 isOption: false,
                 timestamp: new Date().toLocaleTimeString(),
               };
-  
+
               const selectedOptions =
                 jsonData.find((data) => data.question === question)?.option;
               if (selectedOptions) {
@@ -109,17 +108,17 @@ function Chatbot() {
                 messagesToUpdate.push(botResponseMessage);
               }
             }
-  
+
             return messagesToUpdate;
           }
-  
+
           return prevMessages;
         });
         scrollToBottom();
       }, 2000);
     });
   };
-  
+
 
   const sendMessage = () => {
     if (inputMessage.trim() === '') return;
@@ -128,19 +127,19 @@ function Chatbot() {
       isBot: false,
       timestamp: new Date().toLocaleTimeString(),
     };
-  
+
     const newMessages = [...chatMessages, newUserMessage];
     setChatMessages(newMessages);
     setInputMessage('');
-  
+
     const updatedMessagesWithTyping = [...newMessages, isLoading];
     setIsLoading(true);
-  
+
     setTimeout(() => {
       setIsLoading(false);
       const matchedData = jsonData.find((data) => data.question === inputMessage);
       const updatedMessages = [...updatedMessagesWithTyping.slice(0, -1)];
-  
+
       if (matchedData) {
         const botResponseMessage = {
           text: matchedData.answer,
@@ -148,7 +147,7 @@ function Chatbot() {
           timestamp: new Date().toLocaleTimeString(),
         };
         updatedMessages.push(botResponseMessage);
-  
+
         if (matchedData.option && matchedData.option.length > 0) {
           // If options are present, add them to the messages
           const optionsMessages = matchedData.option.map((option) => ({
@@ -159,26 +158,37 @@ function Chatbot() {
           }));
           updatedMessages.push(...optionsMessages);
         }
-  
-        console.log(updatedMessages, 'updatedMessages123456789-');
       } else {
-        const defaultOptions = [{ question: "How can I contact your customer support?" }, { question: "Hire Resources?" }];
+        // Default response for unmatched input
+        const errorMessage = {
+          text: "What are you primarily looking for, from us?",
+          isBot: true,
+          timestamp: new Date().toLocaleTimeString(),
+        };
+        updatedMessages.push(errorMessage);
+
+        // Add default options
+        const defaultOptions = [
+          { answer: "What are you primarily looking for, from us?" },
+          { question: "Hire dedicated team" },
+          { question: "Start a new project" },
+          { question: "Apply for Job" },
+        ];
         const defaultOptionsMessages = defaultOptions.map((option) => ({
           text: option.question,
           isBot: true,
           isOption: true,
           onClick: () => handleOptionClick(option.answer, option.question),
         }));
+
         updatedMessages.push(...defaultOptionsMessages);
-  
-        console.log(updatedMessages, 'update1233456');
       }
+
       setChatMessages(updatedMessages);
       setSelectedOption(null);
       scrollToBottom();
     }, 2000);
   };
-  
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
@@ -211,19 +221,21 @@ function Chatbot() {
       console.log(updatedMessages, 'updatedMessages13,');
       setChatMessages(updatedMessages);
     } else {
-      // const errorMessage = {
-      //   text: 'Sorry, I couldn\'t find a matching response for your question.',
-      //   isBot: true,
-      //   timestamp: new Date().toLocaleTimeString(),
-      // };
-      const defaultOptions = [{ question: "How can I contact your customer support?" }, { question: "Hire Resources?" }];
-      const defaultOptionsMessages = defaultOptions.map((option) => ({
-        text: option.question,
+      const errorMessage = {
+        text: 'Sorry, I couldn\'t find a matching response for your question.',
         isBot: true,
-        isOption: true,
-        onClick: () => handleOptionClick(option.answer, option.question),
-      }));
-      const updatedMessages = [defaultOptionsMessages];
+        timestamp: new Date().toLocaleTimeString(),
+      };
+
+
+      // const defaultOptions = [{ question: "How can I contact your customer support?" }, { question: "Hire Resources?" }];
+      // const defaultOptionsMessages = defaultOptions.map((option) => ({
+      //   text: option.question,
+      //   isBot: true,
+      //   isOption: true,
+      //   onClick: () => handleOptionClick(option.answer, option.question),
+      // }));
+      const updatedMessages = [errorMessage];
       setChatMessages(updatedMessages);
     }
   };
@@ -235,42 +247,42 @@ function Chatbot() {
           <Modal.Title className='title'>Plutus</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div className='chat-box-scroll'  ref={chatContainerRef}>
+          <div className='chat-box-scroll' ref={chatContainerRef}>
 
-          <div className='message-text'>
-            Hi! I am Plutus, your personal assistant to help you with Plutus-related queries
-          </div>
-          {/* <Image src="/pblic/himalayanMountains.jpg" alt='img'/> */}
-          <div className='chat-messages'>
-            {chatMessages?.map((message, index) => (
-              <div
-                key={index}
-                className={`chat-message ${message.isBot ? 'left' : 'right'} ${message.isOption ? 'option-message' : ''}`}
-                onClick={message.isOption ? message.onClick : null}
-              >
-                {message.text && (
-                  <div className={`message-text ${message.isOption ? 'message-option' : ''}`}>
-                    {console.log(message.text, 'message.text')}
-                    {message.text && message.text}
-                  </div>
-                )}
-                {!message.isOption && (
-                  <div className='message-timestamp'>
-                    {new Date().toLocaleString('en-US', {
-                      hour: 'numeric',
-                      minute: 'numeric',
-                      hour12: true,
-                    })}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-
-          {isLoading ? (
-            <p className='typingbox'>Typing...</p>
-          ) : null}
+            <div className='message-text'>
+              Hi! I am Plutus, your personal assistant to help you with Plutus-related queries
+            </div>
+            {/* <Image src="/pblic/himalayanMountains.jpg" alt='img'/> */}
+            <div className='chat-messages'>
+              {chatMessages?.map((message, index) => (
+                <div
+                  key={index}
+                  className={`chat-message ${message.isBot ? 'left' : 'right'} ${message.isOption ? 'option-message' : ''}`}
+                  onClick={message.isOption ? message.onClick : null}
+                >
+                  {message.text && (
+                    <div className={`message-text ${message.isOption ? 'message-option' : ''}`}>
+                      {console.log(message.text, 'message.text')}
+                      {message.text && message.text}
                     </div>
+                  )}
+                  {!message.isOption && (
+                    <div className='message-timestamp'>
+                      {new Date().toLocaleString('en-US', {
+                        hour: 'numeric',
+                        minute: 'numeric',
+                        hour12: true,
+                      })}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {isLoading ? (
+              <p className='typingbox'>Typing...</p>
+            ) : null}
+          </div>
 
         </Modal.Body>
 

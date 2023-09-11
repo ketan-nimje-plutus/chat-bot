@@ -65,15 +65,15 @@
     "question": "ReactJs Devs",
     "option": [
       {
-        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "answer": "Please provide your contact information so that Sales Team can reach out to you.",
         "question": "1 Year to 2 Year"
       },
       {
-        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "answer": "Please provide your contact information so that Sales Team can reach out to you.",
         "question": "2 Year to 3 Year"
       },
       {
-        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "answer": "Please provide your contact information so that Sales Team can reach out to you.",
         "question": "More then 3 Year"
       }
     ]
@@ -84,15 +84,15 @@
     "answer": "please select developers experience",
     "option": [
       {
-        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "answer": "Please provide your contact information so that Sales Team can reach out to you.",
         "question": "1 Year to 2 Year"
       },
       {
-        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "answer": "Please provide your contact information so that Sales Team can reach out to you.",
         "question": "2 Year to 3 Year"
       },
       {
-        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "answer": "Please provide your contact information so that Sales Team can reach out to you.",
         "question": "More then 3 Year"
       }
     ]
@@ -102,15 +102,15 @@
     "question": "TypeScript Devs",
     "option": [
       {
-        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "answer": "Please provide your contact information so that Sales Team can reach out to you.",
         "question": "1 Year to 2 Year"
       },
       {
-        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "answer": "Please provide your contact information so that Sales Team can reach out to you.",
         "question": "2 Year to 3 Year"
       },
       {
-        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "answer": "Please provide your contact information so that Sales Team can reach out to you.",
         "question": "3 Year to 4 Year"
       }
     ]
@@ -120,15 +120,15 @@
     "question": "PHP Devs",
     "option": [
       {
-        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "answer": "Please provide your contact information so that Sales Team can reach out to you.",
         "question": "1 Year to 2 Year"
       },
       {
-        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "answer": "Please provide your contact information so that Sales Team can reach out to you.",
         "question": "2 Year to 3 Year"
       },
       {
-        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "answer": "Please provide your contact information so that Sales Team can reach out to you.",
         "question": "More then 3 Year"
       }
     ]
@@ -208,15 +208,15 @@
     "question": "ReactJS",
     "option": [
       {
-        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "answer": "Please provide your contact information so that Sales Team can reach out to you.",
         "question": "2 month"
       },
       {
-        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "answer": "Please provide your contact information so that Sales Team can reach out to you.",
         "question": "6 month"
       },
       {
-        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "answer": "Please provide your contact information so that Sales Team can reach out to you.",
         "question": "More then 6 month"
       }
     ]
@@ -226,15 +226,15 @@
     "question": "TypeScript",
     "option": [
       {
-        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "answer": "Please provide your contact information so that Sales Team can reach out to you.",
         "question": "2 month"
       },
       {
-        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "answer": "Please provide your contact information so that Sales Team can reach out to you.",
         "question": "6 month"
       },
       {
-        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "answer": "Please provide your contact information so that Sales Team can reach out to you.",
         "question": "More then 6 month"
       }
     ]
@@ -244,15 +244,15 @@
     "question": "Mongodb",
     "option": [
       {
-        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "answer": "Please provide your contact information so that Sales Team can reach out to you.",
         "question": "2 month"
       },
       {
-        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "answer": "Please provide your contact information so that Sales Team can reach out to you.",
         "question": "6 month"
       },
       {
-        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "answer": "Please provide your contact information so that Sales Team can reach out to you.",
         "question": "More then 6 month"
       }
     ]
@@ -262,15 +262,15 @@
     "question": "mysql",
     "option": [
       {
-        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "answer": "Please provide your contact information so that Sales team can reach out to you.",
         "question": "2 month"
       },
       {
-        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "answer": "Please provide your contact information so that Sales team can reach out to you.",
         "question": "6 month"
       },
       {
-        "answer": "Please provide your contact information so that HR can reach out to you.",
+        "answer": "Please provide your contact information so that Sales team can reach out to you.",
         "question": "More then 6 month"
       }
     ]
