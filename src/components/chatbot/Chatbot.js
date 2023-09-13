@@ -308,7 +308,7 @@ function Chatbot() {
           </div>
 
         </Modal.Body>
-
+{/* 
         <div className='chat-input'>
           <input
             className="input"
@@ -317,13 +317,13 @@ function Chatbot() {
             value={inputMessage}
             onChange={(e) => setInputMessage(e.target.value)}
             onKeyPress={handleKeyPress}
-            disabled={isLoading}
-          />
+            disabled={isLoading} */}
+          {/* /> */}
           {/* <button className='send-button'  disabled={isLoading}> */}
-          <button className='send-button' onClick={sendMessage} disabled={isLoading}>
+          {/* <button className='send-button' onClick={sendMessage} disabled={isLoading}>
             <AiOutlineSend size={"1.7em"} />
-          </button>
-        </div>
+          </button> */}
+        {/* </div> */}
       </Modal>
     </div>
   );
