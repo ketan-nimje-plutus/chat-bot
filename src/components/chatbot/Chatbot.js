@@ -1,10 +1,9 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { AiOutlinePlus, AiOutlineMinus, AiOutlineSend } from 'react-icons/ai';
+import { AiOutlineSend } from 'react-icons/ai';
 import Modal from 'react-bootstrap/Modal';
 import './ChatBot.css';
-import data from './steps.json';
-import { Image } from 'react-bootstrap';
-// import himalayanMountains from "../../../public/himalayanMountains.jpg";
+import axios from 'axios';
+
 
 function Chatbot() {
   const [showChat, setShowChat] = useState(false);
@@ -12,7 +11,6 @@ function Chatbot() {
   const [inputMessage, setInputMessage] = useState('');
   const [selectedOption, setSelectedOption] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [jsonData, setJsonData] = useState(data);
   const chatContainerRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -40,11 +38,14 @@ function Chatbot() {
   const hideChat = () => {
     setShowChat(false);
     setChatMessages([]);
-    setSelectedOption(null);
+    // setSelectedOption(null);
   };
-
   const handleOptionClick = (answer, question) => {
+    if (selectedOption) {
+      return;
+    }
     setSelectedOption(question);
+
     const selectedOptionMessage = {
       text: question,
       isBot: false,
@@ -52,76 +53,68 @@ function Chatbot() {
     };
 
     setChatMessages((prevMessages) => [...prevMessages, selectedOptionMessage]);
+
     scrollToBottom();
+
+    let botResponseShown = false;
+
+    // Show "typing..." message
+    const typingMessage = {
+      text: 'Typing...',
+      isBot: true,
+      isOption: false,
+      timestamp: new Date().toLocaleTimeString(),
+    };
+    setChatMessages((prevMessages) => [...prevMessages, typingMessage]);
+    scrollToBottom();
+
+    // Delay for 2 seconds before fetching bot response
     setTimeout(() => {
-      setChatMessages((prevMessages) => {
-        const typingMessage = {
-          text: 'Typing...',
-          isBot: true,
-          isOption: false,
-          timestamp: new Date().toLocaleTimeString(),
-        };
-        return [...prevMessages, typingMessage];
-      });
-      scrollToBottom();
+      axios
+        .post('https://chat-bot-mongo.onrender.com/get', { question })
+        .then((Response) => {
+          console.log(Response.data, 'Response');
+          const options1 = Response.data.Options;
 
-      setTimeout(() => {
-        setChatMessages((prevMessages) => {
-          const messagesToUpdate = [...prevMessages];
-          const typingMessageIndex = messagesToUpdate.findIndex(
-            (message) => message.text === 'Typing...'
-          );
+          // Remove the "typing..." message
+          setChatMessages((prevMessages) => prevMessages.filter((msg) => msg !== typingMessage));
 
-          if (typingMessageIndex >= 0) {
-            messagesToUpdate.splice(typingMessageIndex, 1);
-            if (answer === null || answer === '') {
-              const selectedOptions =
-                jsonData.find((data) => data.question === question)?.option;
-              if (selectedOptions) {
-                const optionMessages = selectedOptions.map((option) => ({
-                  text: option.question,
-                  isBot: true,
-                  isOption: true,
-                  onClick: () => handleOptionClick(option.answer, option.question),
-                }));
-                messagesToUpdate.push(...optionMessages);
-              }
-            } else {
+          if (!botResponseShown) {
+            botResponseShown = true;
+            if (answer) {
               const botResponseMessage = {
                 text: answer,
                 isBot: true,
-                isOption: false,
                 timestamp: new Date().toLocaleTimeString(),
               };
-
-              const selectedOptions =
-                jsonData.find((data) => data.question === question)?.option;
-              if (selectedOptions) {
-                const optionMessages = selectedOptions.map((option) => ({
-                  text: option.question,
-                  isBot: true,
-                  isOption: true,
-                  onClick: () => handleOptionClick(option.answer, option.question),
-                }));
-                messagesToUpdate.push(botResponseMessage, ...optionMessages);
-              } else {
-                messagesToUpdate.push(botResponseMessage);
-              }
+              setChatMessages((prevMessages) => [...prevMessages, botResponseMessage]);
             }
-
-            return messagesToUpdate;
+          }
+          if (options1 && options1.length > 0) {
+            const optionMessages = options1.map((option) => ({
+              text: option.question,
+              isBot: true,
+              isOption: true,
+              onClick: () => handleOptionClick(option.answer, option.question),
+            }));
+            setChatMessages((prevMessages) => [...prevMessages, ...optionMessages]);
+            console.log(optionMessages, 'optionMessages');
           }
 
-          return prevMessages;
+          scrollToBottom();
+        })
+        .catch((err) => {
+          console.log(err, 'err');
         });
-        scrollToBottom();
-      }, 2000);
-    });
+    }, 2000); // Wait for 2 seconds before making the bot call
   };
+
+
 
 
   const sendMessage = () => {
     if (inputMessage.trim() === '') return;
+
     const newUserMessage = {
       text: inputMessage,
       isBot: false,
@@ -131,64 +124,97 @@ function Chatbot() {
     const newMessages = [...chatMessages, newUserMessage];
     setChatMessages(newMessages);
     setInputMessage('');
+    scrollToBottom();
+    if (!selectedOption) {
+      const updatedMessagesWithTyping = [...newMessages];
+      updatedMessagesWithTyping.push({
+        text: 'Typing...',
+        isBot: true,
+        isOption: false,
+        timestamp: new Date().toLocaleTimeString(),
+      });
+      setIsLoading(true);
 
-    const updatedMessagesWithTyping = [...newMessages, isLoading];
-    setIsLoading(true);
+      setTimeout(() => {
+        setIsLoading(false);
 
-    setTimeout(() => {
-      setIsLoading(false);
-      const matchedData = jsonData.find((data) => data.question === inputMessage);
-      const updatedMessages = [...updatedMessagesWithTyping.slice(0, -1)];
+        axios.post('https://chat-bot-mongo.onrender.com/get', { question: inputMessage }).then((Response) => {
+          console.log(Response.data, 'Response');
+          const matchedData = Response.data;
+          console.log(matchedData, 'matchedData');
+          const updatedMessages = [...updatedMessagesWithTyping.slice(0, -1)];
 
-      if (matchedData) {
-        const botResponseMessage = {
-          text: matchedData.answer,
-          isBot: true,
-          timestamp: new Date().toLocaleTimeString(),
-        };
-        updatedMessages.push(botResponseMessage);
+          if (matchedData) {
 
-        if (matchedData.option && matchedData.option.length > 0) {
-          // If options are present, add them to the messages
-          const optionsMessages = matchedData.option.map((option) => ({
-            text: option.question,
-            isBot: true,
-            isOption: true,
-            onClick: () => handleOptionClick(option.answer, option.question),
-          }));
-          updatedMessages.push(...optionsMessages);
-        }
-      } else {
-        // Default response for unmatched input
-        const errorMessage = {
-          text: "What are you primarily looking for, from us?",
-          isBot: true,
-          timestamp: new Date().toLocaleTimeString(),
-        };
-        updatedMessages.push(errorMessage);
+            console.log(matchedData?.Botresponse, 'matchedData.answer');
+            const botResponseMessage = {
+              text: matchedData.Botrespons,
+              isBot: true,
+              timestamp: new Date().toLocaleTimeString(),
+            };
+            updatedMessages.push(botResponseMessage);
 
-        // Add default options
-        const defaultOptions = [
-          { answer: "What are you primarily looking for, from us?" },
-          { question: "Hire dedicated team" },
-          { question: "Start a new project" },
-          { question: "Apply for Job" },
-        ];
-        const defaultOptionsMessages = defaultOptions.map((option) => ({
-          text: option.question,
-          isBot: true,
-          isOption: true,
-          onClick: () => handleOptionClick(option.answer, option.question),
-        }));
+            if (matchedData.Options && matchedData.Options.length > 0) {
+              const optionsMessages = matchedData.Options.map((option) => ({
+                text: option.question,
+                isBot: true,
+                isOption: true,
+                onClick: () => handleOptionClick(option.answer, option.question),
+              }));
+              updatedMessages.push(...optionsMessages);
+            }
+            if (matchedData?.Botresponse == "I'm sorry, I didn't understand that.") {
+              const errorMessage = {
+                text: "What are you primarily looking for, from us?",
+                isBot: true,
+                timestamp: new Date().toLocaleTimeString(),
+              };
+              updatedMessages.push(errorMessage);
+              const defaultOptions = [
+                { answer: "Can you tell me little more about what kind of resources you'll want to hire for your project?", question: "Hire dedicated team" }, { answer: "Please Select Frontend Developer or Backend Developer", question: "Start a new project" }, { answer: "Please select your field of job", question: "Apply for Job" }
+              ];
+              const defaultOptionsMessages = defaultOptions.map((option) => ({
+                text: option.question,
+                isBot: true,
+                isOption: true,
+                onClick: () => handleOptionClick(option.answer, option.question),
+              }));
 
-        updatedMessages.push(...defaultOptionsMessages);
-      }
+              updatedMessages.push(...defaultOptionsMessages);
+            }
+          } else {
+            const errorMessage = {
+              text: "What are you primarily looking for, from us?",
+              isBot: true,
+              timestamp: new Date().toLocaleTimeString(),
+            };
+            updatedMessages.push(errorMessage);
+            const defaultOptions = [
+              { answer: "What are you primarily looking for, from us?" },
+              { question: "Hire dedicated team" },
+              { question: "Start a new project" },
+              { question: "Apply for Job" },
+            ];
+            const defaultOptionsMessages = defaultOptions.map((option) => ({
+              text: option.question,
+              isBot: true,
+              isOption: true,
+              onClick: () => handleOptionClick(option.answer, option.question),
+            }));
 
-      setChatMessages(updatedMessages);
-      setSelectedOption(null);
-      scrollToBottom();
-    }, 2000);
+            updatedMessages.push(...defaultOptionsMessages);
+          }
+
+          setChatMessages(updatedMessages);
+          setSelectedOption(null);
+          scrollToBottom();
+        }).catch((err) => {
+          console.log(err, 'err');
+        });
+      }, 2000);
+    }
   };
+
 
 
   const handleKeyPress = (e) => {
@@ -199,47 +225,43 @@ function Chatbot() {
 
   const callChatbotAPI = () => {
     console.log("callChatbotAPI", "callChatbotAPIcallChatbotAPI");
-    const matchedData = jsonData.find((data) => data.question === inputMessage);
 
-    if (matchedData) {
-      const botResponseMessage = {
-        text: matchedData.answer,
-        isBot: true,
-        timestamp: new Date().toLocaleTimeString(),
-      };
-
-      const optionsMessages = matchedData.option.map((option) => {
-        const optionMessage = {
-          text: option.question,
+    axios.post('https://chat-bot-mongo.onrender.com/get', { question: inputMessage }).then((Response) => {
+      console.log(Response.data, 'Response');
+      const matchedData = Response.data;
+      console.log(matchedData, 'matchedData')
+      if (matchedData) {
+        const botResponseMessage = {
+          text: matchedData.Botresponse,
           isBot: true,
-          isOption: true,
-          onClick: () => handleOptionClick(option.answer, option.question),
+          timestamp: new Date().toLocaleTimeString(),
         };
-        return optionMessage;
-      });
+        if (matchedData.Options && matchedData.Options.length > 0) {
+          const optionsMessages = matchedData.Options.map((option) => ({
+            text: option.question,
+            isBot: true,
+            isOption: true,
+            onClick: () => handleOptionClick(option.answer, option.question),
+          }));
+          const updatedMessages = [botResponseMessage, ...optionsMessages];
+          setChatMessages(updatedMessages);
+        } else {
+          setChatMessages([botResponseMessage]);
+        }
+      } else {
+        const errorMessage = {
+          text: 'Sorry, I couldn\'t find a matching response for your question.',
+          isBot: true,
+          timestamp: new Date().toLocaleTimeString(),
+        };
 
-      const updatedMessages = [botResponseMessage, ...optionsMessages];
-      console.log(updatedMessages, 'updatedMessages13,');
-      setChatMessages(updatedMessages);
-    } else {
-      const errorMessage = {
-        text: 'Sorry, I couldn\'t find a matching response for your question.',
-        isBot: true,
-        timestamp: new Date().toLocaleTimeString(),
-      };
-
-
-      // const defaultOptions = [{ question: "How can I contact your customer support?" }, { question: "Hire Resources?" }];
-      // const defaultOptionsMessages = defaultOptions.map((option) => ({
-      //   text: option.question,
-      //   isBot: true,
-      //   isOption: true,
-      //   onClick: () => handleOptionClick(option.answer, option.question),
-      // }));
-      const updatedMessages = [errorMessage];
-      setChatMessages(updatedMessages);
-    }
+        setChatMessages([errorMessage]);
+      }
+    }).catch((err) => {
+      console.log(err, 'err');
+    });
   };
+
 
   return (
     <div className='icon'>
@@ -263,7 +285,7 @@ function Chatbot() {
                 >
                   {message.text && (
                     <div className={`message-text ${message.isOption ? 'message-option' : ''}`}>
-                      {console.log(message.text, 'message.text')}
+                      {/* {console.log(message.text, 'message.text')} */}
                       {message.text && message.text}
                     </div>
                   )}
@@ -297,6 +319,7 @@ function Chatbot() {
             onKeyPress={handleKeyPress}
             disabled={isLoading}
           />
+          {/* <button className='send-button'  disabled={isLoading}> */}
           <button className='send-button' onClick={sendMessage} disabled={isLoading}>
             <AiOutlineSend size={"1.7em"} />
           </button>
