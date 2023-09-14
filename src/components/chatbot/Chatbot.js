@@ -3,7 +3,7 @@ import { AiOutlineSend } from 'react-icons/ai';
 import Modal from 'react-bootstrap/Modal';
 import './ChatBot.css';
 import axios from 'axios';
-
+import { Image } from 'react-bootstrap';
 
 function Chatbot() {
   const [showChat, setShowChat] = useState(false);
@@ -11,7 +11,7 @@ function Chatbot() {
   const [inputMessage, setInputMessage] = useState('');
   const [selectedOption, setSelectedOption] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const chatContainerRef = useRef(null);
+    const chatContainerRef = useRef(null);
 
   const scrollToBottom = () => {
     if (chatContainerRef.current) {
@@ -275,17 +275,17 @@ function Chatbot() {
             <div className='message-text'>
               Hi! I am Plutus, your personal assistant to help you with Plutus-related queries
             </div>
-            {/* <Image src="/pblic/himalayanMountains.jpg" alt='img'/> */}
+            <Image className="Imagesize" src="https://media.licdn.com/dms/image/C511BAQG2JI-OXvO3jA/company-background_10000/0/1565183095196?e=1695272400&v=beta&t=58-Kzic0sPSklRA_gl6l0wtH42jTwpb9EV9I6R0WOaw" alt='img' />
             <div className='chat-messages'>
               {chatMessages?.map((message, index) => (
                 <div
                   key={index}
                   className={`chat-message ${message.isBot ? 'left' : 'right'} ${message.isOption ? 'option-message' : ''}`}
                   onClick={message.isOption ? message.onClick : null}
-                >
+                                  >
                   {message.text && (
                     <div className={`message-text ${message.isOption ? 'message-option' : ''}`}>
-                      {/* {console.log(message.text, 'message.text')} */}
+{/* {console.log(message.text, 'message.text')} */}
                       {message.text && message.text}
                     </div>
                   )}
