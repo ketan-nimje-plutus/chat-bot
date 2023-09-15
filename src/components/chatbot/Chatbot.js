@@ -10,8 +10,9 @@ function Chatbot() {
   const [chatMessages, setChatMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
   const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedOptionData, setSelectedOptionData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-    const chatContainerRef = useRef(null);
+  const chatContainerRef = useRef(null);
 
   const scrollToBottom = () => {
     if (chatContainerRef.current) {
@@ -46,6 +47,16 @@ function Chatbot() {
     }
     setSelectedOption(question);
 
+    const updatedOptionData = selectedOptionData.map((option) => {
+      return {
+        ...option,
+        isEnabled: option.question === question,
+      };
+    });
+
+    // Update the selected option data
+    setSelectedOptionData(updatedOptionData);
+    scrollToBottom();
     const selectedOptionMessage = {
       text: question,
       isBot: false,
@@ -54,10 +65,9 @@ function Chatbot() {
 
     setChatMessages((prevMessages) => [...prevMessages, selectedOptionMessage]);
 
-    scrollToBottom();
+    // scrollToBottom();
 
     let botResponseShown = false;
-
     // Show "typing..." message
     const typingMessage = {
       text: 'Typing...',
@@ -65,10 +75,9 @@ function Chatbot() {
       isOption: false,
       timestamp: new Date().toLocaleTimeString(),
     };
+  
     setChatMessages((prevMessages) => [...prevMessages, typingMessage]);
-    scrollToBottom();
-
-    // Delay for 2 seconds before fetching bot response
+    // scrollToBottom();
     setTimeout(() => {
       axios
         .post('https://chat-bot-mongo.onrender.com/get', { question })
@@ -97,6 +106,7 @@ function Chatbot() {
               isOption: true,
               onClick: () => handleOptionClick(option.answer, option.question),
             }));
+            setSelectedOptionData(optionMessages);
             setChatMessages((prevMessages) => [...prevMessages, ...optionMessages]);
             console.log(optionMessages, 'optionMessages');
           }
@@ -106,114 +116,111 @@ function Chatbot() {
         .catch((err) => {
           console.log(err, 'err');
         });
-    }, 2000); // Wait for 2 seconds before making the bot call
+    }, 2000);// Wait for 2 seconds before making the bot call
   };
 
 
 
+const sendMessage = () => {
+  if (inputMessage.trim() === '') return;
 
-  const sendMessage = () => {
-    if (inputMessage.trim() === '') return;
-
-    const newUserMessage = {
-      text: inputMessage,
-      isBot: false,
-      timestamp: new Date().toLocaleTimeString(),
-    };
-
-    const newMessages = [...chatMessages, newUserMessage];
-    setChatMessages(newMessages);
-    setInputMessage('');
-    scrollToBottom();
-    if (!selectedOption) {
-      const updatedMessagesWithTyping = [...newMessages];
-      updatedMessagesWithTyping.push({
-        text: 'Typing...',
-        isBot: true,
-        isOption: false,
-        timestamp: new Date().toLocaleTimeString(),
-      });
-      setIsLoading(true);
-
-      setTimeout(() => {
-        setIsLoading(false);
-
-        axios.post('https://chat-bot-mongo.onrender.com/get', { question: inputMessage }).then((Response) => {
-          console.log(Response.data, 'Response');
-          const matchedData = Response.data;
-          console.log(matchedData, 'matchedData');
-          const updatedMessages = [...updatedMessagesWithTyping.slice(0, -1)];
-
-          if (matchedData) {
-
-            console.log(matchedData?.Botresponse, 'matchedData.answer');
-            const botResponseMessage = {
-              text: matchedData.Botrespons,
-              isBot: true,
-              timestamp: new Date().toLocaleTimeString(),
-            };
-            updatedMessages.push(botResponseMessage);
-
-            if (matchedData.Options && matchedData.Options.length > 0) {
-              const optionsMessages = matchedData.Options.map((option) => ({
-                text: option.question,
-                isBot: true,
-                isOption: true,
-                onClick: () => handleOptionClick(option.answer, option.question),
-              }));
-              updatedMessages.push(...optionsMessages);
-            }
-            if (matchedData?.Botresponse == "I'm sorry, I didn't understand that.") {
-              const errorMessage = {
-                text: "What are you primarily looking for, from us?",
-                isBot: true,
-                timestamp: new Date().toLocaleTimeString(),
-              };
-              updatedMessages.push(errorMessage);
-              const defaultOptions = [
-                { answer: "Can you tell me little more about what kind of resources you'll want to hire for your project?", question: "Hire dedicated team" }, { answer: "Please Select Frontend Developer or Backend Developer", question: "Start a new project" }, { answer: "Please select your field of job", question: "Apply for Job" }
-              ];
-              const defaultOptionsMessages = defaultOptions.map((option) => ({
-                text: option.question,
-                isBot: true,
-                isOption: true,
-                onClick: () => handleOptionClick(option.answer, option.question),
-              }));
-
-              updatedMessages.push(...defaultOptionsMessages);
-            }
-          } else {
-            const errorMessage = {
-              text: "What are you primarily looking for, from us?",
-              isBot: true,
-              timestamp: new Date().toLocaleTimeString(),
-            };
-            updatedMessages.push(errorMessage);
-            const defaultOptions = [
-              { answer: "What are you primarily looking for, from us?" },
-              { question: "Hire dedicated team" },
-              { question: "Start a new project" },
-              { question: "Apply for Job" },
-            ];
-            const defaultOptionsMessages = defaultOptions.map((option) => ({
-              text: option.question,
-              isBot: true,
-              isOption: true,
-              onClick: () => handleOptionClick(option.answer, option.question),
-            }));
-
-            updatedMessages.push(...defaultOptionsMessages);
-          }
-
-          setChatMessages(updatedMessages);
-          setSelectedOption(null);
-          scrollToBottom();
-        }).catch((err) => {
-          console.log(err, 'err');
-        });
-      }, 2000);
-    }
+  const newUserMessage = {
+    text: inputMessage,
+    isBot: false,
+    timestamp: new Date().toLocaleTimeString(),
   };
+
+  const newMessages = [...chatMessages, newUserMessage];
+  setChatMessages(newMessages);
+  setInputMessage('');
+
+  // Display "Typing..." message and scroll
+  const typingMessage = {
+    text: 'Typing...',
+    isBot: true,
+    isOption: false,
+    timestamp: new Date().toLocaleTimeString(),
+  };
+  setChatMessages((prevMessages) => [...prevMessages, typingMessage]);
+  // scrollToBottom();
+
+  setTimeout(() => {
+    axios.post('https://chat-bot-mongo.onrender.com/get', { question: inputMessage }).then((Response) => {
+      console.log(Response.data, 'Response');
+      const matchedData = Response.data;
+      console.log(matchedData, 'matchedData');
+      const updatedMessagesWithTyping = [...newMessages, typingMessage]; // Keep "Typing..." message
+
+      if (matchedData) {
+        console.log(matchedData?.Botresponse, 'matchedData.answer');
+        const botResponseMessage = {
+          text: matchedData.Botresponse,
+          isBot: true,
+          timestamp: new Date().toLocaleTimeString(),
+        };
+        updatedMessagesWithTyping.push(botResponseMessage);
+
+        if (matchedData.Options && matchedData.Options.length > 0) {
+          const optionsMessages = matchedData.Options.map((option) => ({
+            text: option.question,
+            isBot: true,
+            isOption: true,
+            onClick: () => handleOptionClick(option.answer, option.question),
+          }));
+          updatedMessagesWithTyping.push(...optionsMessages);
+        }
+        if (matchedData?.Botresponse === "I'm sorry, I didn't understand that.") {
+          const errorMessage = {
+            text: "What are you primarily looking for, from us?",
+            isBot: true,
+            timestamp: new Date().toLocaleTimeString(),
+          };
+          updatedMessagesWithTyping.push(errorMessage);
+          const defaultOptions = [
+            { answer: "Can you tell me a little more about what kind of resources you'll want to hire for your project?", question: "Hire a dedicated team" },
+            { answer: "Please select Frontend Developer or Backend Developer", question: "Start a new project" },
+            { answer: "Please select your field of job", question: "Apply for a Job" }
+          ];
+          const defaultOptionsMessages = defaultOptions.map((option) => ({
+            text: option.question,
+            isBot: true,
+            isOption: true,
+            onClick: () => handleOptionClick(option.answer, option.question),
+          }));
+          updatedMessagesWithTyping.push(...defaultOptionsMessages);
+        }
+      } else {
+        const errorMessage = {
+          text: "What are you primarily looking for, from us?",
+          isBot: true,
+          timestamp: new Date().toLocaleTimeString(),
+        };
+        updatedMessagesWithTyping.push(errorMessage);
+        const defaultOptions = [
+          { answer: "What are you primarily looking for, from us?" },
+          { question: "Hire a dedicated team" },
+          { question: "Start a new project" },
+          { question: "Apply for a Job" },
+        ];
+        const defaultOptionsMessages = defaultOptions.map((option) => ({
+          text: option.question,
+          isBot: true,
+          isOption: true,
+          onClick: () => handleOptionClick(option.answer, option.question),
+        }));
+        updatedMessagesWithTyping.push(...defaultOptionsMessages);
+      }
+
+      setChatMessages(updatedMessagesWithTyping);
+      setSelectedOption(null);
+      // scrollToBottom(); // Scroll to the latest message after bot response
+    }).catch((err) => {
+      console.log(err, 'err');
+    });
+  }, 2000); // Wait for 2 seconds before making the bot call
+};
+
+  
 
 
 
@@ -236,6 +243,7 @@ function Chatbot() {
           isBot: true,
           timestamp: new Date().toLocaleTimeString(),
         };
+        setSelectedOptionData(matchedData.Options)
         if (matchedData.Options && matchedData.Options.length > 0) {
           const optionsMessages = matchedData.Options.map((option) => ({
             text: option.question,
@@ -266,12 +274,11 @@ function Chatbot() {
   return (
     <div className='icon'>
       <Modal show={showChat} onHide={hideChat}>
-        <Modal.Header>
+        <Modal.Header closeButton>
           <Modal.Title className='title'>Plutus</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className='chat-box-scroll' ref={chatContainerRef}>
-
             <div className='message-text'>
               Hi! I am Plutus, your personal assistant to help you with Plutus-related queries
             </div>
@@ -280,12 +287,11 @@ function Chatbot() {
               {chatMessages?.map((message, index) => (
                 <div
                   key={index}
-                  className={`chat-message ${message.isBot ? 'left' : 'right'} ${message.isOption ? 'option-message' : ''}`}
-                  onClick={message.isOption ? message.onClick : null}
-                                  >
+                  className={` chat-message ${message.isBot ? 'left' : 'right'} ${message.isOption ? 'option-message' : ''}`}
+                  onClick={message.isOption && selectedOptionData.some((option) => option.question === message.text || option.text === message.text) ? message.onClick : null}
+                >
                   {message.text && (
                     <div className={`message-text ${message.isOption ? 'message-option' : ''}`}>
-{/* {console.log(message.text, 'message.text')} */}
                       {message.text && message.text}
                     </div>
                   )}
@@ -308,7 +314,7 @@ function Chatbot() {
           </div>
 
         </Modal.Body>
-{/* 
+        {/* 
         <div className='chat-input'>
           <input
             className="input"
@@ -318,9 +324,9 @@ function Chatbot() {
             onChange={(e) => setInputMessage(e.target.value)}
             onKeyPress={handleKeyPress}
             disabled={isLoading} */}
-          {/* /> */}
-          {/* <button className='send-button'  disabled={isLoading}> */}
-          {/* <button className='send-button' onClick={sendMessage} disabled={isLoading}>
+        {/* /> */}
+        {/* <button className='send-button'  disabled={isLoading}> */}
+        {/* <button className='send-button' onClick={sendMessage} disabled={isLoading}>
             <AiOutlineSend size={"1.7em"} />
           </button> */}
         {/* </div> */}

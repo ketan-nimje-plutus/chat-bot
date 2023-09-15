@@ -89,6 +89,9 @@
     overflow-y: auto;
     background: aliceblue;
 }
+.disableOption{
+    cursor:none;
+}
 
 /* .option-message {
     margin: 0px 8px 8px 0px;
@@ -152,7 +155,7 @@
     margin: 10px 16px;
 }
 
-@keyframes dot-pulse {
+/* @keyframes dot-pulse {
 
     0%,
     80%,
@@ -163,7 +166,7 @@
     40% {
         transform: scale(1);
     }
-}
+} */
 
 .dot {
     display: flex;
