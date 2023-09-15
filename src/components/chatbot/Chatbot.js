@@ -20,11 +20,20 @@ function Chatbot() {
     }
   };
 
+  console.log(chatMessages, 'chatMessages');
+
   useEffect(() => {
     startChat();
     callChatbotAPI();
-    scrollToBottom();
+
   }, []);
+
+  useEffect(() => {
+    if (chatMessages) {
+      scrollToBottom();
+    }
+  }, [chatMessages])
+
 
   const startChat = () => {
     setShowChat(true);
@@ -39,7 +48,6 @@ function Chatbot() {
   const hideChat = () => {
     setShowChat(false);
     setChatMessages([]);
-    // setSelectedOption(null);
   };
   const handleOptionClick = (answer, question) => {
     if (selectedOption) {
@@ -56,7 +64,6 @@ function Chatbot() {
 
     // Update the selected option data
     setSelectedOptionData(updatedOptionData);
-    scrollToBottom();
     const selectedOptionMessage = {
       text: question,
       isBot: false,
@@ -68,14 +75,13 @@ function Chatbot() {
     // scrollToBottom();
 
     let botResponseShown = false;
-    // Show "typing..." message
     const typingMessage = {
       text: 'Typing...',
       isBot: true,
       isOption: false,
       timestamp: new Date().toLocaleTimeString(),
     };
-  
+
     setChatMessages((prevMessages) => [...prevMessages, typingMessage]);
     // scrollToBottom();
     setTimeout(() => {
@@ -84,8 +90,6 @@ function Chatbot() {
         .then((Response) => {
           console.log(Response.data, 'Response');
           const options1 = Response.data.Options;
-
-          // Remove the "typing..." message
           setChatMessages((prevMessages) => prevMessages.filter((msg) => msg !== typingMessage));
 
           if (!botResponseShown) {
@@ -116,60 +120,76 @@ function Chatbot() {
         .catch((err) => {
           console.log(err, 'err');
         });
-    }, 2000);// Wait for 2 seconds before making the bot call
+    }, 2000);
   };
 
 
 
-const sendMessage = () => {
-  if (inputMessage.trim() === '') return;
+  const sendMessage = () => {
+    if (inputMessage.trim() === '') return;
 
-  const newUserMessage = {
-    text: inputMessage,
-    isBot: false,
-    timestamp: new Date().toLocaleTimeString(),
-  };
+    const newUserMessage = {
+      text: inputMessage,
+      isBot: false,
+      timestamp: new Date().toLocaleTimeString(),
+    };
 
-  const newMessages = [...chatMessages, newUserMessage];
-  setChatMessages(newMessages);
-  setInputMessage('');
+    const newMessages = [...chatMessages, newUserMessage];
+    setChatMessages(newMessages);
+    setInputMessage('');
+    const typingMessage = {
+      text: 'Typing...',
+      isBot: true,
+      isOption: false,
+      timestamp: new Date().toLocaleTimeString(),
+    };
+    setChatMessages((prevMessages) => [...prevMessages, typingMessage]);
+    setTimeout(() => {
+      axios.post('https://chat-bot-mongo.onrender.com/get', { question: inputMessage }).then((Response) => {
+        console.log(Response.data, 'Response');
+        const matchedData = Response.data;
+        console.log(matchedData, 'matchedData');
+        const updatedMessagesWithTyping = [...newMessages, typingMessage]; // Keep "Typing..." message
 
-  // Display "Typing..." message and scroll
-  const typingMessage = {
-    text: 'Typing...',
-    isBot: true,
-    isOption: false,
-    timestamp: new Date().toLocaleTimeString(),
-  };
-  setChatMessages((prevMessages) => [...prevMessages, typingMessage]);
-  // scrollToBottom();
-
-  setTimeout(() => {
-    axios.post('https://chat-bot-mongo.onrender.com/get', { question: inputMessage }).then((Response) => {
-      console.log(Response.data, 'Response');
-      const matchedData = Response.data;
-      console.log(matchedData, 'matchedData');
-      const updatedMessagesWithTyping = [...newMessages, typingMessage]; // Keep "Typing..." message
-
-      if (matchedData) {
-        console.log(matchedData?.Botresponse, 'matchedData.answer');
-        const botResponseMessage = {
-          text: matchedData.Botresponse,
-          isBot: true,
-          timestamp: new Date().toLocaleTimeString(),
-        };
-        updatedMessagesWithTyping.push(botResponseMessage);
-
-        if (matchedData.Options && matchedData.Options.length > 0) {
-          const optionsMessages = matchedData.Options.map((option) => ({
-            text: option.question,
+        if (matchedData) {
+          console.log(matchedData?.Botresponse, 'matchedData.answer');
+          const botResponseMessage = {
+            text: matchedData.Botresponse,
             isBot: true,
-            isOption: true,
-            onClick: () => handleOptionClick(option.answer, option.question),
-          }));
-          updatedMessagesWithTyping.push(...optionsMessages);
-        }
-        if (matchedData?.Botresponse === "I'm sorry, I didn't understand that.") {
+            timestamp: new Date().toLocaleTimeString(),
+          };
+          updatedMessagesWithTyping.push(botResponseMessage);
+
+          if (matchedData.Options && matchedData.Options.length > 0) {
+            const optionsMessages = matchedData.Options.map((option) => ({
+              text: option.question,
+              isBot: true,
+              isOption: true,
+              onClick: () => handleOptionClick(option.answer, option.question),
+            }));
+            updatedMessagesWithTyping.push(...optionsMessages);
+          }
+          if (matchedData?.Botresponse === "I'm sorry, I didn't understand that.") {
+            const errorMessage = {
+              text: "What are you primarily looking for, from us?",
+              isBot: true,
+              timestamp: new Date().toLocaleTimeString(),
+            };
+            updatedMessagesWithTyping.push(errorMessage);
+            const defaultOptions = [
+              { answer: "Can you tell me a little more about what kind of resources you'll want to hire for your project?", question: "Hire a dedicated team" },
+              { answer: "Please select Frontend Developer or Backend Developer", question: "Start a new project" },
+              { answer: "Please select your field of job", question: "Apply for a Job" }
+            ];
+            const defaultOptionsMessages = defaultOptions.map((option) => ({
+              text: option.question,
+              isBot: true,
+              isOption: true,
+              onClick: () => handleOptionClick(option.answer, option.question),
+            }));
+            updatedMessagesWithTyping.push(...defaultOptionsMessages);
+          }
+        } else {
           const errorMessage = {
             text: "What are you primarily looking for, from us?",
             isBot: true,
@@ -177,9 +197,10 @@ const sendMessage = () => {
           };
           updatedMessagesWithTyping.push(errorMessage);
           const defaultOptions = [
-            { answer: "Can you tell me a little more about what kind of resources you'll want to hire for your project?", question: "Hire a dedicated team" },
-            { answer: "Please select Frontend Developer or Backend Developer", question: "Start a new project" },
-            { answer: "Please select your field of job", question: "Apply for a Job" }
+            { answer: "What are you primarily looking for, from us?" },
+            { question: "Hire a dedicated team" },
+            { question: "Start a new project" },
+            { question: "Apply for a Job" },
           ];
           const defaultOptionsMessages = defaultOptions.map((option) => ({
             text: option.question,
@@ -189,40 +210,14 @@ const sendMessage = () => {
           }));
           updatedMessagesWithTyping.push(...defaultOptionsMessages);
         }
-      } else {
-        const errorMessage = {
-          text: "What are you primarily looking for, from us?",
-          isBot: true,
-          timestamp: new Date().toLocaleTimeString(),
-        };
-        updatedMessagesWithTyping.push(errorMessage);
-        const defaultOptions = [
-          { answer: "What are you primarily looking for, from us?" },
-          { question: "Hire a dedicated team" },
-          { question: "Start a new project" },
-          { question: "Apply for a Job" },
-        ];
-        const defaultOptionsMessages = defaultOptions.map((option) => ({
-          text: option.question,
-          isBot: true,
-          isOption: true,
-          onClick: () => handleOptionClick(option.answer, option.question),
-        }));
-        updatedMessagesWithTyping.push(...defaultOptionsMessages);
-      }
 
-      setChatMessages(updatedMessagesWithTyping);
-      setSelectedOption(null);
-      // scrollToBottom(); // Scroll to the latest message after bot response
-    }).catch((err) => {
-      console.log(err, 'err');
-    });
-  }, 2000); // Wait for 2 seconds before making the bot call
-};
-
-  
-
-
+        setChatMessages(updatedMessagesWithTyping);
+        setSelectedOption(null);
+      }).catch((err) => {
+        console.log(err, 'err');
+      });
+    }, 2000);
+  };
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
@@ -275,23 +270,23 @@ const sendMessage = () => {
     <div className='icon'>
       <Modal show={showChat} onHide={hideChat}>
         <Modal.Header closeButton>
-          <Modal.Title className='title'>Plutus</Modal.Title>
+          <Modal.Title className='title'>Ask Plutus</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className='chat-box-scroll' ref={chatContainerRef}>
             <div className='message-text'>
-              Hi! I am Plutus, your personal assistant to help you with Plutus-related queries
+              Welcome to <b>Plutus</b>,  Your personal assistant to help you with your queries
             </div>
             <Image className="Imagesize" src="https://media.licdn.com/dms/image/C511BAQG2JI-OXvO3jA/company-background_10000/0/1565183095196?e=1695272400&v=beta&t=58-Kzic0sPSklRA_gl6l0wtH42jTwpb9EV9I6R0WOaw" alt='img' />
             <div className='chat-messages'>
               {chatMessages?.map((message, index) => (
                 <div
                   key={index}
-                  className={` chat-message ${message.isBot ? 'left' : 'right'} ${message.isOption ? 'option-message' : ''}`}
+                  className={` chat-message ${message.isBot ? 'left' : 'right'} ${message.isOption ? 'option-message' : ''} `}
                   onClick={message.isOption && selectedOptionData.some((option) => option.question === message.text || option.text === message.text) ? message.onClick : null}
                 >
                   {message.text && (
-                    <div className={`message-text ${message.isOption ? 'message-option' : ''}`}>
+                    <div className={`message-text ${message.isOption ? 'message-option' : ''} ${selectedOptionData.some((option) => option.question === message.text || option.text === message.text) ? "Selectoption" : ""}`}>
                       {message.text && message.text}
                     </div>
                   )}

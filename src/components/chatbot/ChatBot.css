@@ -44,9 +44,23 @@
 
     &:hover {
         color: white !important;
+        background-color: #f3b4b4 !important;
+    }
+}
+.Selectoption {
+    color: #f05454;
+    border: 1px solid lightblue;
+    border-radius: 5px !important;
+    overflow: hidden;
+    max-width: 100%;
+
+    &:hover {
+        color: white !important;
         background-color: #f05454 !important;
     }
 }
+
+
 
 .input {
     border: 0;
@@ -93,12 +107,14 @@
     cursor:none;
 }
 
-/* .option-message {
-    margin: 0px 8px 8px 0px;
-    display: inline-flex;
-    padding: 8px 8px;
-    border-radius: 8px;
-} */
+
+.Seleted-btn :hover {
+    /* opacity: 50%; */
+    background-color: aqua;
+    color: #333;
+    transition: 0.5s all;
+
+}
 
 .chat-box-scroll {
     height: 100% !important;
@@ -115,6 +131,15 @@
     display: none;
 }
 
+.chat-messages{
+    @media(max-width:576px){
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+
+    }
+}
 
 .chat-message.option-message {
     border-radius: 4px;
@@ -128,7 +153,7 @@
         margin-bottom: 5px;
         margin-top: 5px;
         padding: 0;
-        width: 100%;
+        width: auto;
     }
 }
 
@@ -204,4 +229,5 @@
 .Imagesize{
     width: 100%;
     height: auto;
+    padding-bottom: 10px;
 }
