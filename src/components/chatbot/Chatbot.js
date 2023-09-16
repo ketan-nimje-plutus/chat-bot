@@ -11,16 +11,15 @@ function Chatbot() {
   const [inputMessage, setInputMessage] = useState('');
   const [selectedOption, setSelectedOption] = useState(null);
   const [selectedOptionData, setSelectedOptionData] = useState([]);
+  const [firstData, setFirstData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const chatContainerRef = useRef(null);
-
+  const NewFirstData = JSON.parse(localStorage.getItem('FirstData'))
   const scrollToBottom = () => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
   };
-
-  console.log(chatMessages, 'chatMessages');
 
   useEffect(() => {
     startChat();
@@ -49,31 +48,28 @@ function Chatbot() {
     setShowChat(false);
     setChatMessages([]);
   };
+
   const handleOptionClick = (answer, question) => {
+    console.log(NewFirstData,'NewFirstData')
     if (selectedOption) {
       return;
     }
     setSelectedOption(question);
-
-    const updatedOptionData = selectedOptionData.map((option) => {
-      return {
-        ...option,
-        isEnabled: option.question === question,
-      };
-    });
-
-    // Update the selected option data
+  
+    const updatedOptionData = selectedOptionData.map((option) => ({
+      ...option,
+      isEnabled: option.question === question,
+    }));
     setSelectedOptionData(updatedOptionData);
+  
     const selectedOptionMessage = {
       text: question,
       isBot: false,
       timestamp: new Date().toLocaleTimeString(),
     };
-
+  
     setChatMessages((prevMessages) => [...prevMessages, selectedOptionMessage]);
-
-    // scrollToBottom();
-
+  
     let botResponseShown = false;
     const typingMessage = {
       text: 'Typing...',
@@ -81,29 +77,37 @@ function Chatbot() {
       isOption: false,
       timestamp: new Date().toLocaleTimeString(),
     };
-
+  
     setChatMessages((prevMessages) => [...prevMessages, typingMessage]);
-    // scrollToBottom();
+  
     setTimeout(() => {
       axios
         .post('https://chat-bot-mongo.onrender.com/get', { question })
         .then((Response) => {
           console.log(Response.data, 'Response');
           const options1 = Response.data.Options;
-          setChatMessages((prevMessages) => prevMessages.filter((msg) => msg !== typingMessage));
-
+          setChatMessages((prevMessages) =>
+            prevMessages.filter((msg) => msg !== typingMessage)
+          );
+          console.log("hello Response");
+  
           if (!botResponseShown) {
             botResponseShown = true;
+            console.log(answer, 'answer');
             if (answer) {
+              console.log("hello answer");
               const botResponseMessage = {
                 text: answer,
                 isBot: true,
                 timestamp: new Date().toLocaleTimeString(),
               };
+  
               setChatMessages((prevMessages) => [...prevMessages, botResponseMessage]);
             }
           }
+  
           if (options1 && options1.length > 0) {
+            console.log("hello options");
             const optionMessages = options1.map((option) => ({
               text: option.question,
               isBot: true,
@@ -114,7 +118,22 @@ function Chatbot() {
             setChatMessages((prevMessages) => [...prevMessages, ...optionMessages]);
             console.log(optionMessages, 'optionMessages');
           }
-
+  
+          if (answer && options1.length === 0) {
+            console.log(answer, 'answer11111')
+            console.log(options1.length === 0, ' options1.length === 011111')
+            const FirstData = NewFirstData.map((option) => ({
+              text: option.question,
+              isBot: true,
+              isOption: true,
+              onClick: () => handleOptionClick(option.answer, option.question),
+            }));
+  
+            setSelectedOptionData(FirstData);
+            setChatMessages((prevMessages) => [...prevMessages, ...FirstData]);
+          }
+  
+          console.log(answer, 'answer');
           scrollToBottom();
         })
         .catch((err) => {
@@ -122,7 +141,7 @@ function Chatbot() {
         });
     }, 2000);
   };
-
+  
 
 
   const sendMessage = () => {
@@ -149,7 +168,7 @@ function Chatbot() {
         console.log(Response.data, 'Response');
         const matchedData = Response.data;
         console.log(matchedData, 'matchedData');
-        const updatedMessagesWithTyping = [...newMessages, typingMessage]; // Keep "Typing..." message
+        const updatedMessagesWithTyping = [...newMessages, typingMessage];
 
         if (matchedData) {
           console.log(matchedData?.Botresponse, 'matchedData.answer');
@@ -176,12 +195,7 @@ function Chatbot() {
               timestamp: new Date().toLocaleTimeString(),
             };
             updatedMessagesWithTyping.push(errorMessage);
-            const defaultOptions = [
-              { answer: "Can you tell me a little more about what kind of resources you'll want to hire for your project?", question: "Hire a dedicated team" },
-              { answer: "Please select Frontend Developer or Backend Developer", question: "Start a new project" },
-              { answer: "Please select your field of job", question: "Apply for a Job" }
-            ];
-            const defaultOptionsMessages = defaultOptions.map((option) => ({
+            const defaultOptionsMessages = NewFirstData.map((option) => ({
               text: option.question,
               isBot: true,
               isOption: true,
@@ -196,13 +210,7 @@ function Chatbot() {
             timestamp: new Date().toLocaleTimeString(),
           };
           updatedMessagesWithTyping.push(errorMessage);
-          const defaultOptions = [
-            { answer: "What are you primarily looking for, from us?" },
-            { question: "Hire a dedicated team" },
-            { question: "Start a new project" },
-            { question: "Apply for a Job" },
-          ];
-          const defaultOptionsMessages = defaultOptions.map((option) => ({
+          const defaultOptionsMessages = NewFirstData.map((option) => ({
             text: option.question,
             isBot: true,
             isOption: true,
@@ -238,7 +246,11 @@ function Chatbot() {
           isBot: true,
           timestamp: new Date().toLocaleTimeString(),
         };
+        console.log(botResponseMessage, 'botResponseMessagebotResponseMessage')
+
         setSelectedOptionData(matchedData.Options)
+        setFirstData(matchedData.Options)
+        localStorage.setItem('FirstData', JSON.stringify(matchedData.Options));
         if (matchedData.Options && matchedData.Options.length > 0) {
           const optionsMessages = matchedData.Options.map((option) => ({
             text: option.question,
@@ -277,7 +289,7 @@ function Chatbot() {
             <div className='message-text'>
               Welcome to <b>Plutus</b>,  Your personal assistant to help you with your queries
             </div>
-            <Image className="Imagesize" src="https://media.licdn.com/dms/image/C511BAQG2JI-OXvO3jA/company-background_10000/0/1565183095196?e=1695272400&v=beta&t=58-Kzic0sPSklRA_gl6l0wtH42jTwpb9EV9I6R0WOaw" alt='img' />
+            <Image className="Imagesize" src="https://web.plutustec.com/image/Plutus-logo.png" alt='img' />
             <div className='chat-messages'>
               {chatMessages?.map((message, index) => (
                 <div

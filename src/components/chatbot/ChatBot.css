@@ -132,7 +132,7 @@
 }
 
 .chat-messages{
-    @media(max-width: 426px){
+    @media(max-width: 480px){
         display: flex;
         justify-content: center;
         gap: 0.5rem;
@@ -140,14 +140,16 @@
 
     }
     .right{
-        @media(max-width: 426px){
+        @media(max-width: 480px){
            width: 100%;
     
         } 
     }
     .left{
-        @media(max-width: 426px){
+        margin: 8px 0;
+        @media(max-width: 480px){
            width: 100%;
+           text-align: center;
     
         } 
     }
@@ -162,8 +164,6 @@
     @media (max-width: 480px) {
         display: inline-block;
         margin: 0;
-        margin-bottom: 5px;
-        margin-top: 5px;
         padding: 0;
         width: auto;
     }
@@ -241,5 +241,5 @@
 .Imagesize{
     width: 100%;
     height: auto;
-    padding-bottom: 10px;
+    padding: 20px 0;
 }
