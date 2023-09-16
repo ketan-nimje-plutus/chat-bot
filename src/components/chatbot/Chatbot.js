@@ -50,36 +50,42 @@ function Chatbot() {
   };
 
   const handleOptionClick = (answer, question) => {
-    console.log(NewFirstData,'NewFirstData')
     if (selectedOption) {
       return;
     }
     setSelectedOption(question);
-  
+
     const updatedOptionData = selectedOptionData.map((option) => ({
       ...option,
       isEnabled: option.question === question,
     }));
     setSelectedOptionData(updatedOptionData);
-  
+
     const selectedOptionMessage = {
       text: question,
       isBot: false,
       timestamp: new Date().toLocaleTimeString(),
     };
-  
+
     setChatMessages((prevMessages) => [...prevMessages, selectedOptionMessage]);
-  
+
     let botResponseShown = false;
     const typingMessage = {
-      text: 'Typing...',
+      text: (
+        <div className='dot-loader'>
+          <p className='typingbox'>Typing</p>
+          <div className='dot'></div>
+          <div className='dot'></div>
+          <div className='dot'></div>
+        </div>
+      ),
       isBot: true,
       isOption: false,
       timestamp: new Date().toLocaleTimeString(),
     };
-  
+
     setChatMessages((prevMessages) => [...prevMessages, typingMessage]);
-  
+
     setTimeout(() => {
       axios
         .post('https://chat-bot-mongo.onrender.com/get', { question })
@@ -90,7 +96,7 @@ function Chatbot() {
             prevMessages.filter((msg) => msg !== typingMessage)
           );
           console.log("hello Response");
-  
+
           if (!botResponseShown) {
             botResponseShown = true;
             console.log(answer, 'answer');
@@ -101,11 +107,11 @@ function Chatbot() {
                 isBot: true,
                 timestamp: new Date().toLocaleTimeString(),
               };
-  
+
               setChatMessages((prevMessages) => [...prevMessages, botResponseMessage]);
             }
           }
-  
+
           if (options1 && options1.length > 0) {
             console.log("hello options");
             const optionMessages = options1.map((option) => ({
@@ -118,21 +124,21 @@ function Chatbot() {
             setChatMessages((prevMessages) => [...prevMessages, ...optionMessages]);
             console.log(optionMessages, 'optionMessages');
           }
-  
+
           if (answer && options1.length === 0) {
-            console.log(answer, 'answer11111')
-            console.log(options1.length === 0, ' options1.length === 011111')
+            console.log(answer, 'answer11111');
+            console.log(options1.length === 0, ' options1.length === 011111');
             const FirstData = NewFirstData.map((option) => ({
               text: option.question,
               isBot: true,
               isOption: true,
               onClick: () => handleOptionClick(option.answer, option.question),
             }));
-  
+
             setSelectedOptionData(FirstData);
             setChatMessages((prevMessages) => [...prevMessages, ...FirstData]);
           }
-  
+
           console.log(answer, 'answer');
           scrollToBottom();
         })
@@ -141,7 +147,7 @@ function Chatbot() {
         });
     }, 2000);
   };
-  
+
 
 
   const sendMessage = () => {
@@ -157,7 +163,14 @@ function Chatbot() {
     setChatMessages(newMessages);
     setInputMessage('');
     const typingMessage = {
-      text: 'Typing...',
+      text: (
+        <div className='dot-loader'>
+          <p className='typingbox'>Typing</p>
+          <div className='dot'></div>
+          <div className='dot'></div>
+          <div className='dot'></div>
+        </div>
+      ),
       isBot: true,
       isOption: false,
       timestamp: new Date().toLocaleTimeString(),
@@ -218,7 +231,6 @@ function Chatbot() {
           }));
           updatedMessagesWithTyping.push(...defaultOptionsMessages);
         }
-
         setChatMessages(updatedMessagesWithTyping);
         setSelectedOption(null);
       }).catch((err) => {
@@ -234,8 +246,6 @@ function Chatbot() {
   };
 
   const callChatbotAPI = () => {
-    console.log("callChatbotAPI", "callChatbotAPIcallChatbotAPI");
-
     axios.post('https://chat-bot-mongo.onrender.com/get', { question: inputMessage }).then((Response) => {
       console.log(Response.data, 'Response');
       const matchedData = Response.data;
@@ -286,7 +296,7 @@ function Chatbot() {
         </Modal.Header>
         <Modal.Body>
           <div className='chat-box-scroll' ref={chatContainerRef}>
-            <div className='message-text'>
+            <div className='message-text Title-text'>
               Welcome to <b>Plutus</b>,  Your personal assistant to help you with your queries
             </div>
             <Image className="Imagesize" src="https://web.plutustec.com/image/Plutus-logo.png" alt='img' />
@@ -314,12 +324,7 @@ function Chatbot() {
                 </div>
               ))}
             </div>
-
-            {isLoading ? (
-              <p className='typingbox'>Typing...</p>
-            ) : null}
-          </div>
-
+          </div>  
         </Modal.Body>
         {/* 
         <div className='chat-input'>
