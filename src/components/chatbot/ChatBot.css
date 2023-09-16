@@ -132,12 +132,24 @@
 }
 
 .chat-messages{
-    @media(max-width:576px){
+    @media(max-width: 426px){
         display: flex;
         justify-content: center;
         gap: 0.5rem;
         flex-wrap: wrap;
 
+    }
+    .right{
+        @media(max-width: 426px){
+           width: 100%;
+    
+        } 
+    }
+    .left{
+        @media(max-width: 426px){
+           width: 100%;
+    
+        } 
     }
 }
 
