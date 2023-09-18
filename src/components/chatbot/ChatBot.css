@@ -269,3 +269,11 @@
 .LinkClass > a {
     color:#f05454;
 }
+.hidden {
+    display: none;
+  }
+  
+  /* CSS class to hide options when an option is clicked */
+  .hide-options .message-option {
+    display: none;
+  }
