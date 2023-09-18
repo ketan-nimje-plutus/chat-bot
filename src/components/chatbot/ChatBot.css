@@ -266,3 +266,6 @@
     font-size: 16px;
 
 }
+.LinkClass > a {
+    color:#f05454;
+}

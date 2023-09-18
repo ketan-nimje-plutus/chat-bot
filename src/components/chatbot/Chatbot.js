@@ -11,9 +11,11 @@ function Chatbot() {
   const [inputMessage, setInputMessage] = useState('');
   const [selectedOption, setSelectedOption] = useState(null);
   const [selectedOptionData, setSelectedOptionData] = useState([]);
-  const [firstData, setFirstData] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  // const [firstData, setFirstData] = useState([]);
+  // const [isLoading, setIsLoading] = useState(false);
   const chatContainerRef = useRef(null);
+  let isFirstMessage = true;
+
   const NewFirstData = JSON.parse(localStorage.getItem('FirstData'))
   const scrollToBottom = () => {
     if (chatContainerRef.current) {
@@ -126,9 +128,16 @@ function Chatbot() {
           }
 
           if (answer && options1.length === 0) {
-            console.log(answer, 'answer11111');
-            console.log(options1.length === 0, ' options1.length === 011111');
-            const FirstData = NewFirstData.map((option) => ({
+            const FirstAnswer = {
+              text: NewFirstData.Botresponse,
+              isBot: true,
+            };
+
+            // Set the flag to hide the timestamp for the first message
+            FirstAnswer.hideTimestamp = true;
+
+            setChatMessages((prevMessages) => [...prevMessages, FirstAnswer]);
+            const FirstData = NewFirstData.Options.map((option) => ({
               text: option.question,
               isBot: true,
               isOption: true,
@@ -136,7 +145,14 @@ function Chatbot() {
             }));
 
             setSelectedOptionData(FirstData);
-            setChatMessages((prevMessages) => [...prevMessages, ...FirstData]);
+
+            // Set the flag to hide the timestamp for all messages in FirstData
+            const FirstDataWithTimestampFlag = FirstData.map((message) => ({
+              ...message,
+              hideTimestamp: true,
+            }));
+
+            setChatMessages((prevMessages) => [...prevMessages, ...FirstDataWithTimestampFlag]);
           }
 
           console.log(answer, 'answer');
@@ -259,8 +275,8 @@ function Chatbot() {
         console.log(botResponseMessage, 'botResponseMessagebotResponseMessage')
 
         setSelectedOptionData(matchedData.Options)
-        setFirstData(matchedData.Options)
-        localStorage.setItem('FirstData', JSON.stringify(matchedData.Options));
+        // setFirstData(matchedData.Options)
+        localStorage.setItem('FirstData', JSON.stringify(matchedData));
         if (matchedData.Options && matchedData.Options.length > 0) {
           const optionsMessages = matchedData.Options.map((option) => ({
             text: option.question,
@@ -289,7 +305,7 @@ function Chatbot() {
 
 
   return (
-    <div className='icon'>
+        <div className='icon'>
       <Modal show={showChat} onHide={hideChat}>
         <Modal.Header closeButton>
           <Modal.Title className='title'>Ask Plutus</Modal.Title>
@@ -297,22 +313,27 @@ function Chatbot() {
         <Modal.Body>
           <div className='chat-box-scroll' ref={chatContainerRef}>
             <div className='message-text Title-text'>
-              Welcome to <b>Plutus</b>,  Your personal assistant to help you with your queries
+              Welcome to <b>Plutus</b>, Your personal assistant to help you with your queries
             </div>
             <Image className="Imagesize" src="https://web.plutustec.com/image/Plutus-logo.png" alt='img' />
             <div className='chat-messages'>
               {chatMessages?.map((message, index) => (
                 <div
                   key={index}
-                  className={` chat-message ${message.isBot ? 'left' : 'right'} ${message.isOption ? 'option-message' : ''} `}
+                  className={`chat-message ${message.isBot ? 'left' : 'right'} ${message.isOption ? 'option-message' : ''}`}
                   onClick={message.isOption && selectedOptionData.some((option) => option.question === message.text || option.text === message.text) ? message.onClick : null}
                 >
-                  {message.text && (
+                  {typeof message.text === 'string' ? (
+                    <div className={`message-text ${message.isOption ? 'message-option' : ''} ${selectedOptionData.some((option) => option.question === message.text || option.text === message.text) ? "Selectoption" : ""}`}>
+                      <div className="LinkClass" dangerouslySetInnerHTML={{ __html: message.text }} />
+                    </div>
+                  ) : (
                     <div className={`message-text ${message.isOption ? 'message-option' : ''} ${selectedOptionData.some((option) => option.question === message.text || option.text === message.text) ? "Selectoption" : ""}`}>
                       {message.text && message.text}
                     </div>
                   )}
-                  {!message.isOption && (
+
+                  {!message.hideTimestamp && isFirstMessage && !message.isOption&& (
                     <div className='message-timestamp'>
                       {new Date().toLocaleString('en-US', {
                         hour: 'numeric',
@@ -324,9 +345,9 @@ function Chatbot() {
                 </div>
               ))}
             </div>
-          </div>  
+            </div>
         </Modal.Body>
-        {/* 
+{/* 
         <div className='chat-input'>
           <input
             className="input"
