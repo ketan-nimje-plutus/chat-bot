@@ -278,3 +278,8 @@
   .hide-options .message-option {
     display: none;
   }
+  .close-button{
+    background: none;
+    border: none;
+    color:#2D2D2D
+  }

@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { AiOutlineSend } from 'react-icons/ai';
+import { FaTimes } from 'react-icons/fa';
 import Modal from 'react-bootstrap/Modal';
 import './ChatBot.css';
 import axios from 'axios';
@@ -252,7 +253,7 @@ function Chatbot() {
           isBot: true,
           timestamp: new Date().toLocaleTimeString(),
         };
-  
+
 
         setSelectedOptionData(matchedData.Options)
         // setFirstData(matchedData.Options)
@@ -282,13 +283,17 @@ function Chatbot() {
       console.log(err, 'err');
     });
   };
-  
+
 
   return (
     <div className='icon'>
-      <Modal show={showChat} onHide={hideChat}>
-        <Modal.Header closeButton className='closeChatbot'>
+      <Modal show={showChat} onHide={hideChat} >
+        <Modal.Header >
           <Modal.Title className='title'>Ask Plutus</Modal.Title>
+          <button className="close-button closeChatbot" onClick={hideChat}>
+            {/* <FaTimes size={20} /> */}
+            <i class="fa fa-times" aria-hidden="true"></i>
+          </button>
         </Modal.Header>
         <Modal.Body>
           <div className='chat-box-scroll' ref={chatContainerRef}>
@@ -313,7 +318,7 @@ function Chatbot() {
                     </div>
                   )}
 
-                  {!message.hideTimestamp && isFirstMessage && !message.isOption&& (
+                  {!message.hideTimestamp && isFirstMessage && !message.isOption && (
                     <div className='message-timestamp'>
                       {new Date().toLocaleString('en-US', {
                         hour: 'numeric',
@@ -327,7 +332,7 @@ function Chatbot() {
             </div>
           </div>
         </Modal.Body>
-                {/* 
+        {/* 
           <div className='chat-input'>
             <input
               className="input"
