@@ -287,20 +287,16 @@ function Chatbot() {
 
   return (
     <div className='icon'>
-      <Modal show={showChat} onHide={hideChat} >
-        <Modal.Header >
-          <Modal.Title className='title'>Ask Plutus</Modal.Title>
-          <button className="close-button closeChatbot">
-            {/* <FaTimes size={20} /> */}
-            <i class="fa fa-times" aria-hidden="true"></i>
-          </button>
+      <Modal show={showChat} onHide={hideChat} className="plutus-chatbot">
+        <Modal.Header className='d-flex align-items-center justfy-content-between'>
+          <Image className="imagesize" src="https://web.plutustec.com/image/Plutus-logo.png" alt='img' />
+          <Modal.Title className='title'>Ask me</Modal.Title> 
         </Modal.Header>
         <Modal.Body>
           <div className='chat-box-scroll' ref={chatContainerRef}>
             <div className='message-text Title-text'>
-              Welcome to <b>Plutus</b>, Your personal assistant to help you with your queries
+              Welcome to <b>Plutus Technologies</b>, Your personal assistant to help you with your queries
             </div>
-            <Image className="Imagesize" src="https://web.plutustec.com/image/Plutus-logo.png" alt='img' />
             <div className='chat-messages'>
               {chatMessages?.map((message, index) => (
                 <div
