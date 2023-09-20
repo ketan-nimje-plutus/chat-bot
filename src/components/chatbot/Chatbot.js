@@ -56,21 +56,21 @@ function Chatbot() {
       return;
     }
     setSelectedOption(question);
-  
+
     const updatedOptionData = selectedOptionData.map((option) => ({
       ...option,
       isEnabled: option.question === question,
     }));
     setSelectedOptionData(updatedOptionData);
-  
+
     const selectedOptionMessage = {
       text: question,
       isBot: false,
       timestamp: new Date().toLocaleTimeString(),
     };
-  
+
     setChatMessages((prevMessages) => [...prevMessages, selectedOptionMessage]);
-  
+
     // Show typing indicator immediately
     const typingMessage = {
       text: (
@@ -85,32 +85,28 @@ function Chatbot() {
       isOption: false,
       timestamp: new Date().toLocaleTimeString(),
     };
-  
+
     setChatMessages((prevMessages) => [...prevMessages, typingMessage]);
-  
+
     axios
       .post('https://chat-bot-mongo.onrender.com/get', { question })
       .then((Response) => {
-        console.log(Response.data, 'Response');
         const options1 = Response.data.Options;
         setChatMessages((prevMessages) =>
           prevMessages.filter((msg) => msg !== typingMessage)
         );
-        console.log("hello Response");
-  
+
         if (answer) {
-          console.log("hello answer");
           const botResponseMessage = {
             text: answer,
             isBot: true,
             timestamp: new Date().toLocaleTimeString(),
           };
-  
+
           setChatMessages((prevMessages) => [...prevMessages, botResponseMessage]);
         }
-  
+
         if (options1 && options1.length > 0) {
-          console.log("hello options");
           const optionMessages = options1.map((option) => ({
             text: option.question,
             isBot: true,
@@ -119,18 +115,17 @@ function Chatbot() {
           }));
           setSelectedOptionData(optionMessages);
           setChatMessages((prevMessages) => [...prevMessages, ...optionMessages]);
-          console.log(optionMessages, 'optionMessages');
         }
-  
+
         if (answer && options1.length === 0) {
           const FirstAnswer = {
             text: NewFirstData.Botresponse,
             isBot: true,
           };
-  
+
           // Set the flag to hide the timestamp for the first message
           FirstAnswer.hideTimestamp = true;
-  
+
           setChatMessages((prevMessages) => [...prevMessages, FirstAnswer]);
           const FirstData = NewFirstData.Options.map((option) => ({
             text: option.question,
@@ -138,31 +133,30 @@ function Chatbot() {
             isOption: true,
             onClick: () => handleOptionClick(option.answer, option.question),
           }));
-  
+
           setSelectedOptionData(FirstData);
-  
+
           // Set the flag to hide the timestamp for all messages in FirstData
           const FirstDataWithTimestampFlag = FirstData.map((message) => ({
             ...message,
             hideTimestamp: true,
           }));
-  
+
           setChatMessages((prevMessages) => [...prevMessages, ...FirstDataWithTimestampFlag]);
         }
-  
-        console.log(answer, 'answer');
+
         scrollToBottom();
       })
       .catch((err) => {
         console.log(err, 'err');
       });
   };
-  
+
 
 
   const sendMessage = () => {
     if (inputMessage.trim() === '') return;
-  
+
     const newUserMessage = {
       text: inputMessage,
       isBot: false,
@@ -172,7 +166,7 @@ function Chatbot() {
     const newMessages = [...chatMessages, newUserMessage];
     setChatMessages(newMessages);
     setInputMessage('');
-        const typingMessage = {
+    const typingMessage = {
       text: (
         <div className='dot-loader'>
           <p className='typingbox'>Typing</p>
@@ -187,12 +181,10 @@ function Chatbot() {
     };
     setChatMessages((prevMessages) => [...prevMessages, typingMessage]);
     axios.post('https://chat-bot-mongo.onrender.com/get', { question: inputMessage }).then((Response) => {
-      console.log(Response.data, 'Response');
       const matchedData = Response.data;
-      console.log(matchedData, 'matchedData');
+
       const updatedMessagesWithTyping = [...newMessages, typingMessage];
       if (matchedData) {
-        console.log(matchedData?.Botresponse, 'matchedData.answer');
         const botResponseMessage = {
           text: matchedData.Botresponse,
           isBot: true,
@@ -253,16 +245,14 @@ function Chatbot() {
 
   const callChatbotAPI = () => {
     axios.post('https://chat-bot-mongo.onrender.com/get', { question: inputMessage }).then((Response) => {
-      console.log(Response.data, 'Response');
       const matchedData = Response.data;
-      console.log(matchedData, 'matchedData')
       if (matchedData) {
         const botResponseMessage = {
           text: matchedData.Botresponse,
           isBot: true,
           timestamp: new Date().toLocaleTimeString(),
         };
-        console.log(botResponseMessage, 'botResponseMessagebotResponseMessage')
+  
 
         setSelectedOptionData(matchedData.Options)
         // setFirstData(matchedData.Options)
@@ -292,12 +282,12 @@ function Chatbot() {
       console.log(err, 'err');
     });
   };
-
+  
 
   return (
     <div className='icon'>
       <Modal show={showChat} onHide={hideChat}>
-        <Modal.Header closeButton>
+        <Modal.Header closeButton className='closeChatbot'>
           <Modal.Title className='title'>Ask Plutus</Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -337,21 +327,21 @@ function Chatbot() {
             </div>
           </div>
         </Modal.Body>
-        {/* 
-        <div className='chat-input'>
-          <input
-            className="input"
-            type='text'
-            placeholder='Type your message...'
-            value={inputMessage}
-            onChange={(e) => setInputMessage(e.target.value)}
-            onKeyPress={handleKeyPress}
-            disabled={isLoading} */}
+                {/* 
+          <div className='chat-input'>
+            <input
+              className="input"
+              type='text'
+              placeholder='Type your message...'
+              value={inputMessage}
+              onChange={(e) => setInputMessage(e.target.value)}
+              onKeyPress={handleKeyPress}
+              disabled={isLoading} */}
         {/* /> */}
         {/* <button className='send-button'  disabled={isLoading}> */}
         {/* <button className='send-button' onClick={sendMessage} disabled={isLoading}>
-            <AiOutlineSend size={"1.7em"} />
-          </button> */}
+              <AiOutlineSend size={"1.7em"} />
+            </button> */}
         {/* </div> */}
       </Modal>
     </div>

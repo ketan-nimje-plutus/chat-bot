@@ -6,6 +6,7 @@
 .modal-content {
     width: 100% !important;
     height: 100% !important;
+    border: none;
 }
 
 .modal-title {
@@ -249,7 +250,7 @@
 
 .Imagesize {
     width: 100%;
-    height: 450px;
+    height: 55%;
     padding: 20px 0;
 
     @media (max-width: 1440px) {
