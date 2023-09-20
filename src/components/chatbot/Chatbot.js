@@ -290,7 +290,7 @@ function Chatbot() {
       <Modal show={showChat} onHide={hideChat} >
         <Modal.Header >
           <Modal.Title className='title'>Ask Plutus</Modal.Title>
-          <button className="close-button closeChatbot" onClick={hideChat}>
+          <button className="close-button closeChatbot">
             {/* <FaTimes size={20} /> */}
             <i class="fa fa-times" aria-hidden="true"></i>
           </button>
