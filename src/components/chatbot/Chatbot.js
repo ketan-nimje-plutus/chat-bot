@@ -295,7 +295,7 @@ function Chatbot() {
         <Modal.Body>
           <div className='chat-box-scroll' ref={chatContainerRef}>
             <div className='message-text Title-text'>
-              Welcome to <b>Plutus Technologies</b>, Your personal assistant to help you with your queries
+              Welcome to <b>Plutus Technologies</b>, your dedicated personal assistant ready to assist with your inquiries.
             </div>
             <div className='chat-messages'>
               {chatMessages?.map((message, index) => (
